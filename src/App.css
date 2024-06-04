@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600;1,700&family=Poppins&family=Roboto&display=swap");
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+/*boostrap-icons*/
 @import 'owl.carousel/dist/assets/owl.carousel.min.css';
+/*owl.carousel*/
 @import 'owl.carousel/dist/assets/owl.theme.default.min.css';
 @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "https://cdn.jsdelivr.net/npm/themify-icons@0.1.2/css/themify-icons.css";
 
 body {
   padding: 0;

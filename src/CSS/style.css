@@ -1,0 +1,62 @@
+.about-outline {
+    padding: 20px 0;
+
+}
+
+.big-padding {
+    padding: 40px 0;
+}
+
+.about-cover {
+    background-color: #f8f9fa;
+    height: 100vh;
+}
+
+.about-row {
+    margin: 120px auto;
+}
+
+
+.image img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.45);
+    border-radius: 10px;
+    /* Example border radius */
+}
+
+.detailat {
+    justify-content: center;
+    padding: 20px;
+    background: #fff;
+    /* Example background color */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    /* Example border radius */
+}
+
+h1.fw-bold,
+h3,
+p {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .about-row {
+        flex-direction: column;
+    }
+
+    .about-row {
+        margin: auto;
+    }
+
+    .image,
+    .detailat {
+        max-width: 100%;
+    }
+
+    .detailat {
+        padding: 10px;
+    }
+}

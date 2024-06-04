@@ -10,8 +10,10 @@ body {
   background-color: #103440;
 }
 
+/* navbar  */
+
 nav {
-  background-color: rgb(27, 98, 126);
+  background-color: #103440;
   padding: 25px 0;
 }
 
@@ -62,7 +64,8 @@ nav {
 }
 
 .btn-primary {
-  background-color: #ffc107;
+  background-color: #0cb05e;
+  ;
   border: none;
   color: #343a40;
   transition: background-color 0.3s;
@@ -115,4 +118,89 @@ nav {
   .logoNav {
     width: 54px;
   }
+}
+
+/* banner */
+
+.card {
+  background-color: transparent;
+  border: none;
+}
+
+.card-body {
+  font-size: 25px;
+  color: #fff;
+}
+
+.card-title {
+  color: #0cb05e;
+}
+
+.body-section {
+  height: 100vh;
+}
+
+.homeBody {
+  margin: 40px auto;
+}
+
+.img-body {
+  max-height: 550px;
+  max-width: 500px;
+  border-radius: 20%;
+}
+
+.detailat {
+  /* Add a base max-height and overflow property */
+  max-height: none;
+  overflow-y: visible;
+  padding: 20px;
+}
+
+@media (max-width: 767.98px) {
+  .img-body {
+    display: none;
+  }
+
+  .copyRight p {
+    font-size: 12px;
+  }
+
+  .card .card-body {
+    font-size: 20px;
+  }
+
+  .detailat {
+    margin-top: 10%;
+    max-height: 400px;
+    /* Adjust as needed */
+    overflow-y: auto;
+  }
+}
+
+
+.button-container {
+  display: flex;
+  gap: 100px;
+}
+
+.socials {
+  display: flex;
+  gap: 60px;
+}
+
+.col-md-6.d-flex {
+  justify-content: flex-end;
+}
+
+.copyRight {
+  background-color: rgb(27, 98, 126);
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 77%;
+}
+
+.copyRight p {
+  font-size: 20px;
 }
