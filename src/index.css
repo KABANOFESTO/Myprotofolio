@@ -126,14 +126,21 @@ nav {
   background-color: transparent;
   border: none;
 }
+.card-body h4{
+  color: yellowgreen;
+}
 
 .card-body {
-  font-size: 25px;
   color: #fff;
 }
 
+
 .card-title {
   color: #0cb05e;
+  font-size: 60px;
+}
+.card-text{
+  font-size: 20px;
 }
 
 .body-section {
@@ -150,13 +157,6 @@ nav {
   border-radius: 20%;
 }
 
-.detailat {
-  /* Add a base max-height and overflow property */
-  max-height: none;
-  overflow-y: visible;
-  padding: 20px;
-}
-
 @media (max-width: 767.98px) {
   .img-body {
     display: none;
@@ -165,16 +165,28 @@ nav {
   .copyRight p {
     font-size: 12px;
   }
-
-  .card .card-body {
-    font-size: 20px;
+  .body-section {
+    height: 100%;
   }
 
+}
+
+@media (max-width: 767px) {
   .detailat {
-    margin-top: 10%;
-    max-height: 400px;
+    max-height: 600px;
     /* Adjust as needed */
     overflow-y: auto;
+  }
+  .detailat #s{
+    display: none;
+  }
+
+  .about-row {
+    flex-direction: column;
+  }
+
+  .image {
+    margin-bottom: 20px;
   }
 }
 

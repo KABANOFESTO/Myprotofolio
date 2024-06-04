@@ -4,7 +4,7 @@ import '../CSS/style.css';
 const About = () => {
     return (
         <>
-            <div class="about-outline">
+            <div class="about-outline mx-auto" >
                 <div class="container-fluid big-padding about-cover">
                     <div class="container">
                         <div class="row about-row d-flex">
@@ -13,12 +13,12 @@ const About = () => {
                             </div>
                             <div class="col-md-7 detailat text-justify d-flex flex-column">
                                 <h1 class="fw-bold">About Me!</h1>
-                                <h3>My dream is to unite people with one superior mission</h3>
+                                <h3>My goal is to develop solutions that bridge divides and unite people through the power of technology.</h3>
                                 <p>As a dedicated software developer with two years of coding experience, I excel in managing all
                                     phases of the development process, from project planning to design, construction, and testing,
                                     ensuring high-quality and functional outcomes. My collaborative approach in multi-functional
                                     teams enables me to efficiently identify and resolve bugs and functionality issues.</p>
-                                <p>During my time as a Full Stack Developer through Coursera (Oct 2022 - Oct 2023), I immersed
+                                <p id='s'>During my time as a Full Stack Developer through Coursera (Oct 2022 - Oct 2023), I immersed
                                     myself in web development technologies like HTML, CSS, JavaScript, and Django. I contributed
                                     to web-based projects, enhancing my skills in front-end and back-end development, and
                                     developed proficiency in version control using Git and GitHub. At solve it in Kigali City (May 2018 -

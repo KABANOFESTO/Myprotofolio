@@ -59,4 +59,8 @@ p {
     .detailat {
         padding: 10px;
     }
+    .about-cover {
+        background-color: #f8f9fa;
+        height: 100%;
+    }
 }

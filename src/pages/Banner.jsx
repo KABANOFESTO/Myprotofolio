@@ -39,8 +39,8 @@ const Banner = () => {
                         <div class="col-md-6">
                             <div class="card mx-auto">
                                 <div class="card-body text-start">
-                                    <h5 class="card-title">Hey! My name is</h5>
-                                    <h2>KABANO  Festo</h2>
+                                    <h1 class="card-title">Hey! My name is</h1>
+                                    <h4>KABANO  Festo</h4>
                                     <p class="card-text">A results-driven software developer with a fervor for creating robust and innovative solutions. My journey in the realm of coding.</p>
                                     <div class="button-container">
                                         <a href="#" class="btn btn-success">Hire Me</a>
