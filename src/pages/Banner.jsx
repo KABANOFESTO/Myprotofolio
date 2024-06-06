@@ -34,7 +34,7 @@ const Banner = () => {
     return (
         <>
             <section class="w-full py-5 min-h-full body-section ">
-                <div class="container homeBody">
+                <div class="container d-flex justify-content-center align-items-center  homeBody">
                     <div class="row align-items-center ">
                         <div class="col-md-6">
                             <div class="card mx-auto">
@@ -46,7 +46,7 @@ const Banner = () => {
                                         <a href="#" class="btn btn-success">Hire Me</a>
                                         <a href="#" class="btn btn-secondary">Learn More</a>
                                     </div>
-                                    <div class="socials mt-4">
+                                    <div class="social-media mt-4">
                                         <a class="social-item" href="https://www.facebook.com/kabano.festo"><i class="bi bi-facebook"></i></a>
                                         <a class="social-item" href="https://www.linkedin.com/in/festo-kabano-3b5150251/"><i class="bi bi-linkedin"></i></a>
                                         <a class="social-item" href="https://github.com/KABANOFESTO"><i class="bi bi-github"></i></a>

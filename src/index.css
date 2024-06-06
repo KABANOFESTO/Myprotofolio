@@ -126,8 +126,10 @@ nav {
   background-color: transparent;
   border: none;
 }
-.card-body h4{
-  color: yellowgreen;
+
+.card-body h4 {
+  color: #0cb05e;
+  font-size: 50px;
 }
 
 .card-body {
@@ -136,10 +138,11 @@ nav {
 
 
 .card-title {
-  color: #0cb05e;
-  font-size: 60px;
+  color: #fff;
+
 }
-.card-text{
+
+.card-text {
   font-size: 20px;
 }
 
@@ -152,9 +155,10 @@ nav {
 }
 
 .img-body {
-  max-height: 550px;
-  max-width: 500px;
+  max-height: 500px;
+  max-width: 450px;
   border-radius: 20%;
+  box-shadow: 0 14px 18px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 767.98px) {
@@ -165,8 +169,13 @@ nav {
   .copyRight p {
     font-size: 12px;
   }
+
   .body-section {
     height: 100%;
+  }
+
+  .custom-card h5 {
+    font-size: 14px;
   }
 
 }
@@ -177,7 +186,8 @@ nav {
     /* Adjust as needed */
     overflow-y: auto;
   }
-  .detailat #s{
+
+  .detailat #s {
     display: none;
   }
 
@@ -210,9 +220,98 @@ nav {
   color: white;
   padding: 20px;
   border-radius: 5px;
-  width: 77%;
+  width: 85%;
 }
 
 .copyRight p {
   font-size: 20px;
+}
+
+.social-media a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  background: transparent;
+  border: .2rem solid white;
+  border-radius: 50%;
+  font-size: 2rem;
+  color: var(--main-color);
+  margin: 3rem 1.5rem 3rem 0;
+  transition: .5s ease;
+}
+
+.social-media a:hover {
+  background: yellowgreen;
+  color: var(--snd-bg-color);
+  box-shadow: 0 0 1rem var(--main-color);
+}
+
+/* services */
+.section {
+  height: 100vh;
+}
+
+/* Container for the services section */
+#service .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title and description styles */
+#service .section-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#service .mb-5.pb-4 {
+  font-size: 18px;
+  max-width: 1600px;
+  margin: 0 auto 40px;
+}
+
+/* Grid layout for the service cards */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Service card styles */
+.custom-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+}
+
+.custom-card :hover {
+  background: #0cb05e;
+}
+
+/* Card body styles */
+.custom-card .card-body {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Icon styles */
+.custom-card .icon {
+  font-size: 100px;
+  color: #0cb05e;
+  margin-bottom: 10px;
+}
+
+/* Hover effect for service cards */
+.custom-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.custom-card h5 {
+  color: black;
 }

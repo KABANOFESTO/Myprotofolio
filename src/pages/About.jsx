@@ -4,8 +4,8 @@ import '../CSS/style.css';
 const About = () => {
     return (
         <>
-            <div class="about-outline mx-auto" >
-                <div class="container-fluid big-padding about-cover">
+            <div class="about-outline" >
+                <div class="container-fluid big-padding about-cover d-flex justify-content-center align-items-center">
                     <div class="container">
                         <div class="row about-row d-flex">
                             <div class="col-md-5 ps-0 ps-lg-5 no-padding image">
