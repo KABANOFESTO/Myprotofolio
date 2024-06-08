@@ -60,9 +60,6 @@ const Banner = () => {
                                 className="img-body"
                                 src={festo}
                                 alt="KABANO U. Festo"
-                                style={{
-                                    boxShadow: '0.5 2rem 2.5rem rgba(0, 0, 0,0.45)',
-                                }}
                             />
                         </div>
                     </div>
