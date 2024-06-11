@@ -8,7 +8,7 @@
 }
 
 .about-cover {
-    background-color: #f8f9fa;
+    background-color: transparent;
     height: 100vh;
 }
 
@@ -21,15 +21,6 @@
     /* Example border radius */
 }
 
-.detailat {
-    justify-content: center;
-    padding: 20px;
-    background: #fff;
-    /* Example background color */
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    /* Example border radius */
-}
 
 h1.fw-bold,
 h3,
@@ -54,8 +45,53 @@ p {
     .detailat {
         padding: 10px;
     }
+
     .about-cover {
         background-color: #f8f9fa;
         height: 100%;
     }
 }
+
+.view.detailat {
+    background-color: #f5f5f5;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.view.detailat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 80%;
+    height: 20px;
+    background-color: #d9d9d9;
+    border-radius: 10px 10px 0 0;
+}
+
+.view.detailat h1 {
+    color: #333;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.view.detailat h3 {
+    color: #666;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.view.detailat p {
+    color: #555;
+    font-family: 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+

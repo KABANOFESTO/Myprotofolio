@@ -1,4 +1,4 @@
-import logo from '../assets/images/developer.png';
+import logo from '../assets/images/ninja.png';
 const Navbar = () => {
     return (
         <>
@@ -33,7 +33,7 @@ const Navbar = () => {
                                 <a className="nav-link" href="#contact">Contact</a>
                             </li>
                             <li className="nav-item">
-                                <a href="assets/cvPDF.pdf" download="CV FESTO FESTO.pdf" className="btn btn-primary rounded ml-4">Resume</a>
+                                <a href="assets/cvPDF.pdf" download="CV FESTO FESTO.pdf" className="btn btn-primary d-flex rounded ml-4"><i>Resume</i></a>
                             </li>
                         </ul>
                     </div>
