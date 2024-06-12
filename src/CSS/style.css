@@ -95,3 +95,54 @@ p {
     margin-bottom: 20px;
 }
 
+/* .cerficates */
+
+.cerficates {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.c-body {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+
+.c-body .icon {
+    position: relative;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.c-body .icon .imgBx {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    transition: 0.5s;
+    border: 1px solid #fff;
+    box-shadow: 0 0 0 4px #222,
+        0 0 0 6px #fff;
+    transform: rotate(calc(360deg/4 * var(--i)));
+    transform-origin: 200px;
+
+}
+
+.c-body .icon .imgBx img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}

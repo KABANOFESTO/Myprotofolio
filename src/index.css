@@ -113,6 +113,9 @@ nav {
   .logoNav {
     width: 58px;
   }
+  #experience {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -223,7 +226,7 @@ nav {
 }
 
 .copyRight {
-  background-color: rgb(27, 98, 126);
+  background-color: rgb(18, 20, 21);
   color: white;
   padding: 20px;
   border-radius: 5px;
@@ -358,4 +361,8 @@ nav {
 .section-title.animate {
   opacity: 1;
   transform: translateY(0);
+}
+
+#experience {
+  width: 92%;
 }
