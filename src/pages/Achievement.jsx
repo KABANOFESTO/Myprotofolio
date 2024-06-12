@@ -26,8 +26,8 @@ const Achievement = () => {
 
     return (
         <>
-            <section className="commerce justify-content-center align-items-center">
-                <div className='container text-center'>
+            <section className="commerce justify-content-center align-items-center" >
+                <div className='container text-center achieve'>
                     <h2 id="achievement-title" className="section-title mb-4 text-success">Remarkable Achievements Showcase</h2>
                 </div>
 
@@ -48,8 +48,8 @@ const Achievement = () => {
                     </div>
                 </div>
 
-                <div className="container d-flex justify-content-center align-items-center">
-                    <div className="row about-row d-flex">
+                <div className="container d-flex justify-content-center align-items-center" >
+                    <div className="row about-row d-flex" >
                         <div className="col-md-7 view detailat text-justify d-flex flex-column">
                             <h1 className="fw-bold">About Me!</h1>
                             <h3>My goal is to develop solutions that bridge divides and unite people through the power of technology.</h3>

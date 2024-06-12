@@ -3,18 +3,18 @@
 const Contact = () => {
     return (
         <>
-            <div style={{ marginTop: '0px' }} className="row no-margin">
+            <div style={{ marginTop: '0px' }} className="row no-margin justify-content-center" >
                 <iframe
-                    style={{ width: '100%', height: '300px', border: 0 }}
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.4751087853338!2d30.119153!3d-1.9637585000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca7ae8598d631%3A0xc552b4bcc2764eed!2sRemera%20Miracle%20Center%20Church!5e0!3m2!1sen!2srw!4v1713910249556!5m2!1sen!2srw"
-                    title="Remera Miracle Center Church"
+                    style={{ width: '80%', height: '200px', border: 0 }}
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.4663352849548!2d30.15703781058143!3d-1.967431798006474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19db599d29c5b3d1%3A0xdce613598e7fcf02!2sKanombe!5e0!3m2!1sen!2srw!4v1718228847584!5m2!1sen!2srw"
+                    title="Kanombe kicukiro"
                     allowFullScreen=""
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                 />
             </div>
 
-            <div className="row contact-rooo big-padding no-margin">
+            <div className="row contact-rooo big-padding no-margin" >
                 <div className="container">
                     <div className="row">
                         <div style={{ padding: '20px' }} className="col-sm-7">
@@ -27,7 +27,7 @@ const Contact = () => {
                                     <span>:</span>
                                 </div>
                                 <div className="col-sm-8">
-                                    <h2 className="fs-4 fw-bold text-white">Contact Form</h2><br />
+                                    <h2 className="fs-4 fw-bold text-white section-titles">Contact Form</h2><br />
                                     <input
                                         type="text"
                                         placeholder="Enter Name"
@@ -57,7 +57,7 @@ const Contact = () => {
                                 </div>
                                 <div className="col-sm-8">
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="name"
                                         placeholder="Enter Mobile Number"
                                         className="form-control input-sm"

@@ -34,7 +34,7 @@ const Certificates = () => {
     return (
         <section className="certificates">
             <div className='container text-center'>
-                <h2 className=" mb-4 text-success">Accreditation and Certification Highlights</h2>
+                <h2 className=" mb-4 text-success section-titles">Accreditation and Certification Highlights</h2>
             </div>
             <br /><br />
             <div className="container c-body">
@@ -63,10 +63,10 @@ const Certificates = () => {
                                     <span>FreeCodeCamp😎</span>
                                 </h2>
                                 <ul className="sci">
-                                    <li><a href=""><i className="fa-brands fa-facebook"></i></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
+                                    <li><a href=""><i class="bi bi-suit-heart-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-chat-dots-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-cup-hot-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-three-dots"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -81,10 +81,10 @@ const Certificates = () => {
                                     <span>FreeCodeCamp😎</span>
                                 </h2>
                                 <ul className="sci">
-                                    <li><a href=""><i className="fa-brands fa-facebook"></i></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
+                                    <li><a href=""><i class="bi bi-suit-heart-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-chat-dots-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-cup-hot-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-three-dots"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -99,10 +99,10 @@ const Certificates = () => {
                                     <span>FreeCodeCamp😎</span>
                                 </h2>
                                 <ul className="sci">
-                                    <li><a href=""><i className="fa-brands fa-facebook"></i></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
+                                    <li><a href=""><i class="bi bi-suit-heart-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-chat-dots-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-cup-hot-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-three-dots"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -117,10 +117,10 @@ const Certificates = () => {
                                     <span>FreeCodeCamp😎</span>
                                 </h2>
                                 <ul className="sci">
-                                    <li><a href=""><i className="fa-brands fa-facebook"></i></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
-                                    <li><a href=""></a></li>
+                                    <li><a href=""><i class="bi bi-suit-heart-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-chat-dots-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-cup-hot-fill"></i></a></li>
+                                    <li><a href=""><i class="bi bi-three-dots"></i></a></li>
                                 </ul>
                             </div>
                         </div>

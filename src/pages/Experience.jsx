@@ -26,9 +26,9 @@ const Experience = () => {
     const [polystarImageLoaded, setPolystarImageLoaded] = useState(false);
 
     return (
-        <section className="w-full py-5 min-h-full d-flex justify-content-center">
+        <section className="w-full py-5 min-h-full d-flex justify-content-center" >
             <div id="experience" className="md:px-24 md:pt-20 p-5">
-                <h3 className="text-2xl text-success mb-5 font-bold">Where I've worked</h3>
+                <h3 className="text-2xl text-success mb-5 font-bold section-titles">Where I've worked</h3>
                 <div className="flex flex-wrap justify-between">
                     <div className="flex flex-col relative overflow-hidden height-auto text-foreground box-border outline-none shadow-none rounded-large transition-transform-background motion-reduce:transition-none bg-background lg:w-1/2">
                         <div className="p-3 z-10 w-full justify-start items-center shrink-0 overflow-inherit color-inherit subpixel-antialiased rounded-t-large flex gap-3">

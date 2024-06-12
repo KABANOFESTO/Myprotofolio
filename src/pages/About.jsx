@@ -11,7 +11,7 @@ const About = () => {
                             <div class="d-flex justify-content-center align-items-center col-md-5 ps-0 ps-lg-5 image">
                                 <img src={me} alt="" class="img-fluid" />
                             </div>
-                            <div class="col-md-7 view detailat text-justify d-flex flex-column">
+                            <div class="col-md-7 view detailat text-justify d-flex flex-column" >
                                 <h1 class="fw-bold">About Me!</h1>
                                 <h3>My goal is to develop solutions that bridge divides and unite people through the power of technology.</h3>
                                 <p>As a dedicated software developer with two years of coding experience, I excel in managing all

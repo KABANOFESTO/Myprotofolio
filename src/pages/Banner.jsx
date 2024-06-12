@@ -7,16 +7,18 @@ import { Link } from 'react-router-dom';
 
 const Banner = () => {
     const typewriteTextRef = useRef(null);
+    const typewriteTextRe = useRef(null);
 
     useEffect(() => {
         const typewriteText = typewriteTextRef.current;
+        const type = typewriteTextRe.current;
         if (typewriteText) {
             $(typewriteText).typewrite({
                 speed: 8,
                 blinkSpeed: 2,
                 showCursor: true,
                 blinkingCursor: true,
-                cursor: "|",
+                cursor: "✍",
                 selectedBackground: "#F1F1F1",
                 selectedText: "#333333",
                 actions: [
@@ -30,10 +32,30 @@ const Banner = () => {
                 ],
             });
         }
+        if (type) {
+            $(type).typewrite({
+                speed: 8,
+                blinkSpeed: 2,
+                showCursor: true,
+                blinkingCursor: true,
+                cursor: "|",
+                selectedBackground: "#F1F1F1",
+                selectedText: "#333333",
+                actions: [
+                    { type: '....' },
+                    { delay: 1000 },
+                    { remove: { num: 4, type: '' } },
+                    { type: '....' },
+                    { delay: 1000 },
+                    { remove: { num: 4, type: '' } },
+                    { type: '....' },
+                ],
+            });
+        }
     }, []);
     return (
         <>
-            <section class="w-full py-5 min-h-full body-section ">
+            <section class="w-full py-5 min-h-full body-section " >
                 <div class="container d-flex justify-content-center align-items-center  homeBody">
                     <div class="row align-items-center ">
                         <div class="col-md-6">
@@ -43,8 +65,10 @@ const Banner = () => {
                                     <h4 className='text-success'>KABANO  Festo</h4>
                                     <p class="card-text">A results-driven software developer with a fervor for creating robust and innovative solutions. My journey in the realm of coding.</p>
                                     <div class="button-container">
-                                        <a href="#" class="btn btn-success">Hire Me</a>
-                                        <a href="#" class="btn btn-secondary">Learn More</a>
+
+                                        <Link to='/login' style={{ textDecoration: 'none' }}>
+                                            <button className="btn shadow-md btn-success mt-4 d-flex" style={{ height: '40px' }}>Connect With Me<p id="typewriteText" ref={typewriteTextRe}>...😎</p></button>
+                                        </Link>
                                     </div>
                                     <div class="social-media mt-4">
                                         <a class="social-item" href="https://www.facebook.com/kabano.festo"><i class="bi bi-facebook"></i></a>
