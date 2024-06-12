@@ -7,7 +7,7 @@ const Certificates = () => {
         <section className="certificates">
             <div className="container c-body">
                 <div className="icon">
-                    <div className="imgBx" style={{ '--i': 0 }}>
+                    <div className="imgBx active" style={{ '--i': 0 }}>
                         <img src={c1} alt="ooo" />
                     </div>
                     <div className="imgBx" style={{ '--i': 1 }}>
@@ -19,6 +19,8 @@ const Certificates = () => {
                     <div className="imgBx" style={{ '--i': 3 }}>
                         <img src={c1} alt="ooo" />
                     </div>
+                </div>
+                <div className="contentc">
                 </div>
             </div>
         </section>
