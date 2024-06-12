@@ -45,7 +45,7 @@ const Services = () => {
         <>
             <section id="service" className="d-flex justify-content-center align-items-center min-vh-100">
                 <div className="container text-center service-content">
-                    <h6 className="section-title mb-4 text-black text-white" ref={headingRef}>My Services</h6>
+                    <h6 className="section-title mb-4 text-success" ref={headingRef}>Expert Services Showcase</h6>
                     <p className="mb-5 pb-4 text-white">
                         I'm an expert software developer offering custom solutions, web and mobile apps, and seamless integration to elevate your business's digital presence.
                     </p>

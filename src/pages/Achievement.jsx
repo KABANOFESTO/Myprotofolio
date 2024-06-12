@@ -28,7 +28,7 @@ const Achievement = () => {
         <>
             <section className="commerce justify-content-center align-items-center">
                 <div className='container text-center'>
-                    <h2 id="achievement-title" className="section-title mb-4 text-white">My Achievements</h2>
+                    <h2 id="achievement-title" className="section-title mb-4 text-success">Remarkable Achievements Showcase</h2>
                 </div>
 
                 <br />
