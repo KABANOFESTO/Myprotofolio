@@ -3,9 +3,12 @@
 const Contact = () => {
     return (
         <>
+            <div className='container text-center'>
+                <h2 className=" mb-4 text-success section-titles">Let's Exchange Ideas</h2>
+            </div>
             <div style={{ marginTop: '0px' }} className="row no-margin justify-content-center" >
                 <iframe
-                    style={{ width: '80%', height: '200px', border: 0 }}
+                    style={{ width: '100%', height: '200px', border: 0 }}
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.4663352849548!2d30.15703781058143!3d-1.967431798006474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19db599d29c5b3d1%3A0xdce613598e7fcf02!2sKanombe!5e0!3m2!1sen!2srw!4v1718228847584!5m2!1sen!2srw"
                     title="Kanombe kicukiro"
                     allowFullScreen=""

@@ -14,7 +14,9 @@ body {
 
 nav {
   background-color: #000;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
   padding: 25px 0;
+
 }
 
 .navbar-brand {
@@ -368,6 +370,41 @@ nav {
   max-height: 82%;
 }
 
+.imageB {
+  position: relative;
+  overflow: hidden;
+}
+
+.imageB img {
+  max-width: 40%;
+  max-height: 82%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  transition: transform 0.5s ease-in-out;
+}
+
+.imageB:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animating {
+  animation: float 3s ease-in-out infinite;
+}
+
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -422,4 +459,28 @@ footer {
 
 .section-titles {
   font-size: 24px;
+}
+
+iframe {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border-radius: 10px;
+  flex: 1;
+  min-width: calc(25% - 20px);
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+iframe:hover {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  transition: filter .5s ease-in-out;
+}
+
+hr {
+  border: none;
+  height: 4px;
+  background: #fff;
+  margin: 30px 0;
 }

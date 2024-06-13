@@ -76,6 +76,7 @@ const Services = () => {
                         </div>
                     </div>
                 </div>
+                <hr />
             </section>
         </>
     );

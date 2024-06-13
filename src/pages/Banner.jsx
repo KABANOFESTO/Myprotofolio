@@ -94,7 +94,6 @@ const Banner = () => {
                         <p>“Means with coding, I can do whatever you want: Just DM me”</p>
                     </div>
                 </div>
-                <hr />
             </section>
         </>
     );
