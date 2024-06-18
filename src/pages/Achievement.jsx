@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import commerce from '../assets/images/f.jpg';
-
+import commerce from '../assets/images/e.jpg';
+import hotel from '../assets/images/hotel.jpeg';
 const Achievement = () => {
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -60,7 +60,7 @@ const Achievement = () => {
                                 and guest satisfaction.</p>
                         </div>
                         <div className="d-flex justify-content-center align-items-center col-md-5 ps-0 ps-lg-5 p imageB">
-                            <img src={commerce} alt="" className="img-fluid animating" />
+                            <img src={hotel} alt="" className="img-fluid animating" />
                         </div>
                     </div>
                 </div>
