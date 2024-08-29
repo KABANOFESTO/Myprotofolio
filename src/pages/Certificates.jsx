@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import c1 from '../assets/images/f.jpg';
-import c2 from '../assets/images/solve.png';
+import c1 from '../assets/images/back.jpg';
+import c2 from '../assets/images/javascript.jpg';
+import c3 from '../assets/images/web.jpg';
+import c4 from '../assets/images/wsaa.png';
+
 import '../CSS/style.css';
 
 const Certificates = () => {
@@ -32,7 +35,7 @@ const Certificates = () => {
     }, []);
 
     return (
-        <section className="certificates">
+        <section className="certificates" id='certificates'>
             <div className='container text-center'>
                 <h2 className=" mb-4 text-success section-titles">Accreditation and Certification Highlights</h2>
             </div>
@@ -46,10 +49,10 @@ const Certificates = () => {
                         <img src={c2} alt="ooo" />
                     </div>
                     <div className="imgBx" style={{ '--i': 2 }} data-id='contenty'>
-                        <img src={c1} alt="ooo" />
+                        <img src={c3} alt="ooo" />
                     </div>
                     <div className="imgBx" style={{ '--i': 3 }} data-id='contentz'>
-                        <img src={c1} alt="ooo" />
+                        <img src={c4} alt="ooo" />
                     </div>
                 </div>
                 <div className="contentc">
@@ -92,10 +95,10 @@ const Certificates = () => {
                     <div className="contentBx" id='contenty'>
                         <div className="card">
                             <div className="imgBx">
-                                <img src={c1} alt="cont" />
+                                <img src={c3} alt="cont" />
                             </div>
                             <div className="textBx">
-                                <h2>Javascript and args <br />
+                                <h2>Responsive Web Design<br />
                                     <span>FreeCodeCamp😎</span>
                                 </h2>
                                 <ul className="sci">
@@ -110,11 +113,11 @@ const Certificates = () => {
                     <div className="contentBx" id='contentz'>
                         <div className="card">
                             <div className="imgBx">
-                                <img src={c1} alt="cont" />
+                                <img src={c4} alt="cont" />
                             </div>
                             <div className="textBx">
-                                <h2>Javascript and args <br />
-                                    <span>FreeCodeCamp😎</span>
+                                <h2>MERN STACK<br />
+                                    <span>Webstack Academy😎</span>
                                 </h2>
                                 <ul className="sci">
                                     <li><a href=""><i class="bi bi-suit-heart-fill"></i></a></li>

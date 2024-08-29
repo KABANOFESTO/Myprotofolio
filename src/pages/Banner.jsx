@@ -4,6 +4,7 @@ import festo from '../assets/images/f.jpg';
 import $ from 'jquery';
 import '../tools/Typerwriter';
 import { Link } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
 
 const Banner = () => {
     const typewriteTextRef = useRef(null);
@@ -66,8 +67,22 @@ const Banner = () => {
                                     <p class="card-text">A results-driven software developer with a fervor for creating robust and innovative solutions. My journey in the realm of coding.</p>
                                     <div class="button-container">
 
-                                        <Link to='/login' style={{ textDecoration: 'none' }}>
-                                            <button className="btn shadow-md btn-success mt-4 d-flex" style={{ height: '40px' }}>Connect With Me<p id="typewriteText" ref={typewriteTextRe}>...😎</p></button>
+                                        <Link style={{ textDecoration: 'none' }}>
+                                            <ScrollLink
+                                                to="contact"
+                                                smooth={true}
+                                                duration={500}
+                                            >
+                                                <button
+                                                    className="btn shadow-md btn-success mt-4 d-flex"
+                                                    style={{ height: '40px' }}
+                                                >
+                                                    Connect With Me
+                                                    <p id="typewriteText" ref={typewriteTextRe} style={{ margin: 0 }}>
+                                                        ...😎
+                                                    </p>
+                                                </button>
+                                            </ScrollLink>
                                         </Link>
                                     </div>
                                     <div class="social-media mt-4">

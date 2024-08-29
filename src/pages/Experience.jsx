@@ -26,7 +26,7 @@ const Experience = () => {
     const [polystarImageLoaded, setPolystarImageLoaded] = useState(false);
 
     return (
-        <section className="w-full py-5 min-h-full d-flex justify-content-center" >
+        <section className="w-full py-5 min-h-full d-flex justify-content-center" id='experience'>
             <div id="experience" className="md:px-24 md:pt-20 p-5">
                 <h3 className="text-2xl text-success mb-5 font-bold section-titles">Where I've worked</h3>
                 <div className="flex flex-wrap justify-between">

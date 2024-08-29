@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import commerce from '../assets/images/e.jpg';
 import hotel from '../assets/images/hotel.jpeg';
+import '../CSS/style.css';
+
 const Achievement = () => {
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -26,7 +28,7 @@ const Achievement = () => {
 
     return (
         <>
-            <section className="commerce justify-content-center align-items-center" >
+            <section className="commerce justify-content-center align-items-center" id='achievement'>
                 <div className='container text-center achieve'>
                     <h2 id="achievement-title" className="section-title mb-4 text-success">Remarkable Achievements Showcase</h2>
                 </div>
@@ -49,7 +51,7 @@ const Achievement = () => {
                     </div>
                 </div>
                 <div className="container d-flex justify-content-center align-items-center" >
-                    <div className="row about-row d-flex" >
+                    <div className="row about-row d-flex h">
                         <div className="col-md-7 text-white text-justify d-flex flex-column">
                             <h1 className="fw-bold text-success">Hotel Management</h1>
                             <h3>Streamlining Operations with Innovative Software Solutions</h3>

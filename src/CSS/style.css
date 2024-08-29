@@ -18,6 +18,7 @@
     display: block;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.45);
     border-radius: 10px;
+    object-fit: cover;
     /* Example border radius */
 }
 
@@ -410,4 +411,9 @@ p {
 
 .contentBx .card .textBx .sci li a {
     background-color: #2196f3;
+}
+.container .h{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
 }

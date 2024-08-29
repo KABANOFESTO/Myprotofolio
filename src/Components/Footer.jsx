@@ -8,11 +8,11 @@ const Footer = () => {
                         {/* li*4 => 4 list*/}
                         <li>Privacy</li>
                         <li>Terms</li>
-                        <li>Sitemap</li>
-                        <li>Company details</li>
+                        <li>aboutMe</li>
+                        <li>Location</li>
                     </ul>
 
-                    <p className="soso">English(IN) ₹ INR</p>
+                    <p className="soso">English(EN)</p>
                 </footer>
             </div>
         </>
