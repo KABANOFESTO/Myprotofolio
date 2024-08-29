@@ -13,15 +13,22 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light fixed-top affix-top" data-spy="affix" data-offset-top="0">
             <div className="container">
-                <Link className="navbar-brand" to="/">
+                <ScrollLink
+                    to="home"
+                    smooth={true}
+                    duration={500}
+                    className="navbar-brand"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setIsOpen(false)}
+                >
                     <img className="logoNav" src={logo} alt="Logo" />
-                </Link>
+                </ScrollLink>
                 <button
                     className={`navbar-toggler ${isOpen ? '' : 'collapsed'}`}
                     type="button"
                     onClick={toggleNavbar}
                     aria-label="Toggle navigation"
-                    style={{background: 'white'}}
+                    style={{ background: 'white' }}
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -34,7 +41,7 @@ const Navbar = () => {
                                 smooth={true}
                                 duration={500}
                                 className="nav-link"
-                                style={{ cursor: 'pointer' }}  // Ensure pointer cursor
+                                style={{ cursor: 'pointer' }}
                                 onClick={toggleNavbar}
                             >
                                 Who am I?
@@ -46,7 +53,7 @@ const Navbar = () => {
                                 smooth={true}
                                 duration={500}
                                 className="nav-link"
-                                style={{ cursor: 'pointer' }}  // Ensure pointer cursor
+                                style={{ cursor: 'pointer' }}
                                 onClick={toggleNavbar}
                             >
                                 Services
@@ -58,7 +65,7 @@ const Navbar = () => {
                                 smooth={true}
                                 duration={500}
                                 className="nav-link"
-                                style={{ cursor: 'pointer' }}  // Ensure pointer cursor
+                                style={{ cursor: 'pointer' }}
                                 onClick={toggleNavbar}
                             >
                                 Achievements
@@ -70,7 +77,7 @@ const Navbar = () => {
                                 smooth={true}
                                 duration={500}
                                 className="nav-link"
-                                style={{ cursor: 'pointer' }}  // Ensure pointer cursor
+                                style={{ cursor: 'pointer' }}
                                 onClick={toggleNavbar}
                             >
                                 Experience
@@ -82,20 +89,19 @@ const Navbar = () => {
                                 smooth={true}
                                 duration={500}
                                 className="nav-link"
-                                style={{ cursor: 'pointer' }}  // Ensure pointer cursor
+                                style={{ cursor: 'pointer' }}
                                 onClick={toggleNavbar}
                             >
                                 Certificates
                             </ScrollLink>
                         </li>
                         <li className="nav-item">
-                            {/* <a className="nav-link" href="#contact">Contact</a> */}
                             <ScrollLink
                                 to="contact"
                                 smooth={true}
                                 duration={500}
                                 className="nav-link"
-                                style={{ cursor: 'pointer' }}  // Ensure pointer cursor
+                                style={{ cursor: 'pointer' }}
                                 onClick={toggleNavbar}
                             >
                                 Contact

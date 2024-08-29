@@ -18,8 +18,6 @@ const Services = () => {
         if (headingRef.current) {
             observer.observe(headingRef.current);
         }
-
-        // Cleanup the observer on component unmount
         return () => {
             if (headingRef.current) {
                 observer.unobserve(headingRef.current);
@@ -37,7 +35,7 @@ const Services = () => {
     const handleMouseOut = (event) => {
         const icon = event.currentTarget.querySelector('.icon');
         if (icon) {
-            icon.style.color = ''; // Reset to original color
+            icon.style.color = '';
         }
     };
 

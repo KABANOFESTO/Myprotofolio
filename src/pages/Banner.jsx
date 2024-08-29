@@ -56,7 +56,7 @@ const Banner = () => {
     }, []);
     return (
         <>
-            <section class="w-full py-5 min-h-full body-section " >
+            <section class="w-full py-5 min-h-full body-section " id='home' >
                 <div class="container d-flex justify-content-center align-items-center  homeBody">
                     <div class="row align-items-center ">
                         <div class="col-md-6">
