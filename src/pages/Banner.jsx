@@ -64,7 +64,8 @@ const Banner = () => {
                                 <div class="card-body text-start">
                                     <h1 class="card-title">Hey! My name is</h1>
                                     <h4 className='text-success'>KABANO  Festo</h4>
-                                    <p class="card-text">A results-driven software developer with a fervor for creating robust and innovative solutions. My journey in the realm of coding.</p>
+                                    <p class="card-text">A results-driven software developer with a fervor for creating robust and innovative solutions.  My journey in the realm of coding started when i was in High school, Where
+                                        i got first test of Coding.</p>
                                     <div class="button-container">
 
                                         <Link style={{ textDecoration: 'none' }}>
