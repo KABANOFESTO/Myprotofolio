@@ -107,7 +107,7 @@ const Contact = () => {
                                         <br />
                                         Email: kabanofesto1@gmail.com
                                         <br />
-                                        Website: www.myBrand.com
+                                        Website: https://festokabano.vercel.app/
                                         <br />
                                     </p>
                                 </div>
