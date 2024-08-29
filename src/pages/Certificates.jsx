@@ -62,7 +62,7 @@ const Certificates = () => {
                                 <img src={c1} alt="cont" />
                             </div>
                             <div className="textBx">
-                                <h2>Javascript and args <br />
+                                <h2>Back End and API's<br />
                                     <span>FreeCodeCamp😎</span>
                                 </h2>
                                 <ul className="sci">
