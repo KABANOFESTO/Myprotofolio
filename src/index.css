@@ -173,8 +173,8 @@ nav {
 
 .img-body {
   max-height: 500px;
-  max-width: 450px;
-  border-radius: 20%;
+  max-width: 400px;
+  border-radius: 10px;
   box-shadow: 0 14px 18px rgba(0, 0, 0, 0.2);
 }
 
@@ -263,7 +263,7 @@ nav {
   color: white;
   padding: 20px;
   border-radius: 5px;
-  width: 85%;
+  width: 88%;
 }
 
 .copyRight p {
