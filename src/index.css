@@ -401,9 +401,9 @@ nav {
   }
 }
 
-.animating {
+/* .animating {
   animation: float 3s ease-in-out infinite;
-}
+} */
 
 @keyframes fadeInUp {
   0% {
