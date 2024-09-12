@@ -36,9 +36,13 @@ const Achievement = () => {
                 <br />
                 <div className="container d-flex justify-content-center align-items-center comm">
                     <div className="row about-row d-flex">
+
                         <div className="d-flex justify-content-center align-items-center col-md-5 ps-0 ps-lg-5 imageB">
-                            <img src={commerce} alt="" className="img-fluid animating" />
+                            <a href="https://e-comm-team-emma25-fe.netlify.app/">
+                                <img src={commerce} alt="" className="img-fluid animating" style={{ cursor: 'pointer' }} />
+                            </a>
                         </div>
+
                         <div className="col-md-7 text-white text-justify d-flex flex-column">
                             <h1 className="fw-bold text-success">E-commerce</h1>
                             <h3>My aim is to create solutions that connect and unite people using the power of technology.</h3>
