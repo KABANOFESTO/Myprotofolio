@@ -49,25 +49,25 @@ const Services = () => {
                     </p>
                     <div className="services-grid">
                         <div className="custom-card card border" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-                            <div className="card-body">
+                            <div className="card-body1">
                                 <span className="icon material-symbols-outlined">language</span>
                                 <h5>Web development</h5>
                             </div>
                         </div>
                         <div className="custom-card card border" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-                            <div className="card-body">
+                            <div className="card-body1">
                                 <span className="icon material-symbols-outlined">contact_phone</span>
                                 <h5>Mobile development</h5>
                             </div>
                         </div>
                         <div className="custom-card card border" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-                            <div className="card-body">
+                            <div className="card-body1">
                                 <span className="icon material-symbols-outlined">support_agent</span>
                                 <h5>Custom Software Development</h5>
                             </div>
                         </div>
                         <div className="custom-card card border" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-                            <div className="card-body">
+                            <div className="card-body1">
                                 <span className="icon material-symbols-outlined">terminal</span>
                                 <h5>System Integration</h5>
                             </div>

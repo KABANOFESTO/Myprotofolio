@@ -61,7 +61,7 @@ const Banner = () => {
                     <div class="row align-items-center ">
                         <div class="col-md-6">
                             <div class="card mx-auto">
-                                <div class="card-body text-start">
+                                <div class="card-body text-start" style={{ alignItems: 'center'}}>
                                     <h1 class="card-title">Hey! My name is</h1>
                                     <h4 className='text-success'>KABANO  Festo</h4>
                                     <p class="card-text">A results-driven software developer with a fervor for creating robust and innovative solutions.  My journey in the realm of coding started when i was in High school, Where
