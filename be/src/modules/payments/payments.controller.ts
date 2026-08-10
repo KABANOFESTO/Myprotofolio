@@ -1,4 +1,15 @@
-﻿import { Body, Controller, Get, Headers, Param, ParseUUIDPipe, Post, Query, RawBody, UseGuards } from '@nestjs/common';
+﻿import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Query,
+  RawBody,
+  UseGuards,
+} from '@nestjs/common';
 import type { Request } from 'express';
 import { UserRole } from '@prisma/client';
 import { buildApiResponse } from '@shared/helpers/api-response.helper';
@@ -22,7 +33,11 @@ export class PaymentsController {
     @CurrentUser() user: PublicUser,
     @Body() dto: CreateCheckoutDto,
   ) {
-    const session = await this.paymentsService.createCheckoutSession(user.id, user.email, dto);
+    const session = await this.paymentsService.createCheckoutSession(
+      user.id,
+      user.email,
+      dto,
+    );
     return buildApiResponse('Checkout session created successfully', session);
   }
 
@@ -47,7 +62,10 @@ export class PaymentsController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async listMyPayments(@CurrentUser() user: PublicUser, @Query() query: ListPaymentsQueryDto) {
+  async listMyPayments(
+    @CurrentUser() user: PublicUser,
+    @Query() query: ListPaymentsQueryDto,
+  ) {
     const payments = await this.paymentsService.listMyPayments(user.id, query);
     return buildApiResponse('Payments loaded successfully', payments);
   }
@@ -83,7 +101,9 @@ export class PaymentsController {
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
-  async getPaymentById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getPaymentById(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const payment = await this.paymentsService.getPaymentById(id);
     return buildApiResponse('Payment loaded successfully', payment);
   }

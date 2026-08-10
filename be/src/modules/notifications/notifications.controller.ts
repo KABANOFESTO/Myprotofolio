@@ -1,4 +1,17 @@
-﻿import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, ParseUUIDPipe, Post, Query, UseGuards } from '@nestjs/common';
+﻿import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  ParseUUIDPipe,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { buildApiResponse } from '@shared/helpers/api-response.helper';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
@@ -17,8 +30,14 @@ export class NotificationsController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async listMyNotifications(@CurrentUser() user: PublicUser, @Query() query: ListNotificationsQueryDto) {
-    const notifications = await this.notificationsService.listMyNotifications(user.id, query.unreadOnly ?? false);
+  async listMyNotifications(
+    @CurrentUser() user: PublicUser,
+    @Query() query: ListNotificationsQueryDto,
+  ) {
+    const notifications = await this.notificationsService.listMyNotifications(
+      user.id,
+      query.unreadOnly ?? false,
+    );
     return buildApiResponse('Notifications loaded successfully', notifications);
   }
 
@@ -35,7 +54,10 @@ export class NotificationsController {
     @CurrentUser() user: PublicUser,
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
-    const notification = await this.notificationsService.markAsRead(user.id, id);
+    const notification = await this.notificationsService.markAsRead(
+      user.id,
+      id,
+    );
     return buildApiResponse('Notification marked as read', notification);
   }
 
@@ -55,7 +77,8 @@ export class NotificationsController {
   @Roles(UserRole.ADMIN, UserRole.OWNER)
   @HttpCode(HttpStatus.CREATED)
   async createNotification(@Body() dto: CreateNotificationDto) {
-    const notification = await this.notificationsService.createNotification(dto);
+    const notification =
+      await this.notificationsService.createNotification(dto);
     return buildApiResponse('Notification created successfully', notification);
   }
 
@@ -63,7 +86,9 @@ export class NotificationsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
   @HttpCode(HttpStatus.OK)
-  async deleteNotification(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async deleteNotification(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const result = await this.notificationsService.deleteNotification(id);
     return buildApiResponse('Notification deleted successfully', result);
   }

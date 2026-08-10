@@ -14,15 +14,27 @@ export class BootstrapAdminService implements OnApplicationBootstrap {
   ) {}
 
   async onApplicationBootstrap() {
-    const enabled = this.configService.get<boolean>('auth.bootstrap.enabled', true);
+    const enabled = this.configService.get<boolean>(
+      'auth.bootstrap.enabled',
+      true,
+    );
     if (!enabled) {
       return;
     }
 
     const email = this.configService.get<string>('auth.bootstrap.email', '');
-    const password = this.configService.get<string>('auth.bootstrap.password', '');
-    const name = this.configService.get<string>('auth.bootstrap.name', 'Portfolio Owner');
-    const role = this.configService.get<UserRole>('auth.bootstrap.role', UserRole.OWNER);
+    const password = this.configService.get<string>(
+      'auth.bootstrap.password',
+      '',
+    );
+    const name = this.configService.get<string>(
+      'auth.bootstrap.name',
+      'Portfolio Owner',
+    );
+    const role = this.configService.get<UserRole>(
+      'auth.bootstrap.role',
+      UserRole.OWNER,
+    );
 
     if (!email || !password) {
       this.logger.warn(

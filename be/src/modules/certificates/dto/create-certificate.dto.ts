@@ -1,5 +1,12 @@
 import { Transform } from 'class-transformer';
-import { IsDate, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
+import {
+  IsDate,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 function trimToUndefined(value: unknown) {
   if (typeof value !== 'string') {
@@ -66,7 +73,10 @@ export class CreateCertificateDto {
 
   @IsOptional()
   @Transform(({ value }) => trimToUndefined(value))
-  @IsUrl({ require_tld: false }, { message: 'verificationUrl must be a valid URL' })
+  @IsUrl(
+    { require_tld: false },
+    { message: 'verificationUrl must be a valid URL' },
+  )
   @MaxLength(255)
   verificationUrl?: string;
 

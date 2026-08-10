@@ -57,7 +57,10 @@ export interface DashboardInterviewSummary {
   totalSessions: number;
   scoredSessions: number;
   averageScore: number | null;
-  byDifficulty: Array<{ difficulty: import('@prisma/client').InterviewDifficulty; count: number }>;
+  byDifficulty: Array<{
+    difficulty: import('@prisma/client').InterviewDifficulty;
+    count: number;
+  }>;
   recentSessions: DashboardRecentInterviewSession[];
 }
 

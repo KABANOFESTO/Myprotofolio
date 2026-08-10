@@ -48,7 +48,13 @@ export class DashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getSummary(): Promise<DashboardSummary> {
-    const [counts, recentProjects, recentContacts, recentCertificates, interviewSummary] = await Promise.all([
+    const [
+      counts,
+      recentProjects,
+      recentContacts,
+      recentCertificates,
+      interviewSummary,
+    ] = await Promise.all([
       this.getCounts(),
       this.prisma.project.findMany({
         orderBy: [{ createdAt: 'desc' }],
@@ -71,12 +77,18 @@ export class DashboardService {
     return {
       counts,
       recent: {
-        projects: recentProjects.map((project) => this.toRecentProject(project)),
-        contacts: recentContacts.map((contact) => this.toRecentContact(contact)),
+        projects: recentProjects.map((project) =>
+          this.toRecentProject(project),
+        ),
+        contacts: recentContacts.map((contact) =>
+          this.toRecentContact(contact),
+        ),
         certificates: recentCertificates.map((certificate) =>
           this.toRecentCertificate(certificate),
         ),
-        interviews: interviewSummary.recentSessions.map((session) => this.toRecentInterview(session)),
+        interviews: interviewSummary.recentSessions.map((session) =>
+          this.toRecentInterview(session),
+        ),
       },
       interviews: interviewSummary,
       generatedAt: new Date().toISOString(),
@@ -116,10 +128,18 @@ export class DashboardService {
       this.prisma.experience.count(),
       this.prisma.education.count(),
       this.prisma.contactMessage.count(),
-      this.prisma.contactMessage.count({ where: { status: ContactStatus.NEW } }),
-      this.prisma.contactMessage.count({ where: { status: ContactStatus.IN_PROGRESS } }),
-      this.prisma.contactMessage.count({ where: { status: ContactStatus.RESOLVED } }),
-      this.prisma.contactMessage.count({ where: { status: ContactStatus.ARCHIVED } }),
+      this.prisma.contactMessage.count({
+        where: { status: ContactStatus.NEW },
+      }),
+      this.prisma.contactMessage.count({
+        where: { status: ContactStatus.IN_PROGRESS },
+      }),
+      this.prisma.contactMessage.count({
+        where: { status: ContactStatus.RESOLVED },
+      }),
+      this.prisma.contactMessage.count({
+        where: { status: ContactStatus.ARCHIVED },
+      }),
       this.prisma.aiReport.count(),
       this.prisma.payment.count(),
       this.prisma.notification.count(),
@@ -153,7 +173,13 @@ export class DashboardService {
   }
 
   private async getInterviewSummary(): Promise<DashboardInterviewSummary> {
-    const [totalSessions, scoredSessions, scoreStats, byDifficulty, recentSessions] = await Promise.all([
+    const [
+      totalSessions,
+      scoredSessions,
+      scoreStats,
+      byDifficulty,
+      recentSessions,
+    ] = await Promise.all([
       this.prisma.interviewSession.count(),
       this.prisma.interviewSession.count({ where: { score: { not: null } } }),
       this.prisma.interviewSession.aggregate({ _avg: { score: true } }),
@@ -176,23 +202,49 @@ export class DashboardService {
         difficulty: item.difficulty,
         count: item._count.difficulty,
       })),
-      recentSessions: recentSessions.map((session) => this.toRecentInterview(session)),
+      recentSessions: recentSessions.map((session) =>
+        this.toRecentInterview(session),
+      ),
     };
   }
 
-  private toRecentProject(project: { id: string; slug: string; title: string; featured: boolean; createdAt: Date }): DashboardRecentProject {
+  private toRecentProject(project: {
+    id: string;
+    slug: string;
+    title: string;
+    featured: boolean;
+    createdAt: Date;
+  }): DashboardRecentProject {
     return project;
   }
 
-  private toRecentContact(contact: { id: string; name: string; email: string; subject: string; status: ContactStatus; createdAt: Date }): DashboardRecentContact {
+  private toRecentContact(contact: {
+    id: string;
+    name: string;
+    email: string;
+    subject: string;
+    status: ContactStatus;
+    createdAt: Date;
+  }): DashboardRecentContact {
     return contact;
   }
 
-  private toRecentCertificate(certificate: { id: string; title: string; issuer: string; issuedAt: Date }): DashboardRecentCertificate {
+  private toRecentCertificate(certificate: {
+    id: string;
+    title: string;
+    issuer: string;
+    issuedAt: Date;
+  }): DashboardRecentCertificate {
     return certificate;
   }
 
-  private toRecentInterview(session: { id: string; role: string; difficulty: InterviewDifficulty; score: number | null; createdAt: Date }): DashboardRecentInterviewSession {
+  private toRecentInterview(session: {
+    id: string;
+    role: string;
+    difficulty: InterviewDifficulty;
+    score: number | null;
+    createdAt: Date;
+  }): DashboardRecentInterviewSession {
     return session;
   }
 }

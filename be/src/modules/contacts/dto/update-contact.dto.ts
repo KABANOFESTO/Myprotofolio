@@ -1,5 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsDate, IsEnum, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { ContactStatus } from '@prisma/client';
 
 function trimToUndefined(value: unknown) {
@@ -36,4 +42,3 @@ export class UpdateContactDto {
   @IsDate()
   respondedAt?: Date;
 }
-

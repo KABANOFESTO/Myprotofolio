@@ -1,4 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, ParseUUIDPipe, ParseEnumPipe, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  ParseUUIDPipe,
+  ParseEnumPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { ContactStatus, UserRole } from '@prisma/client';
 import { buildApiResponse } from '@shared/helpers/api-response.helper';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
@@ -24,7 +38,10 @@ export class ContactsController {
   @Post('me')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  async createContactAsUser(@CurrentUser() user: PublicUser, @Body() dto: CreateContactDto) {
+  async createContactAsUser(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: CreateContactDto,
+  ) {
     const contact = await this.contactsService.createContact(dto, user.id);
     return buildApiResponse('Message sent successfully', contact);
   }
@@ -32,7 +49,9 @@ export class ContactsController {
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
-  async listContacts(@Query('status', new ParseEnumPipe(ContactStatus)) status?: ContactStatus) {
+  async listContacts(
+    @Query('status', new ParseEnumPipe(ContactStatus)) status?: ContactStatus,
+  ) {
     const contacts = await this.contactsService.listContacts({ status });
     return buildApiResponse('Contacts loaded successfully', contacts);
   }
@@ -40,7 +59,9 @@ export class ContactsController {
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
-  async getContact(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getContact(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const contact = await this.contactsService.getContactById(id);
     return buildApiResponse('Contact loaded successfully', contact);
   }
@@ -60,9 +81,10 @@ export class ContactsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
   @HttpCode(HttpStatus.OK)
-  async deleteContact(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async deleteContact(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const result = await this.contactsService.deleteContact(id);
     return buildApiResponse('Contact deleted successfully', result);
   }
 }
-

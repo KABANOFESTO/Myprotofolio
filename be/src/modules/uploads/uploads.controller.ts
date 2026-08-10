@@ -26,8 +26,16 @@ export class UploadsController {
   @Post('avatar')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  @UseInterceptors(FileInterceptor('file', buildUploadMulterOptions('avatar', 5 * 1024 * 1024)))
-  async uploadAvatar(@CurrentUser() _user: PublicUser, @UploadedFile() file: MulterFile) {
+  @UseInterceptors(
+    FileInterceptor(
+      'file',
+      buildUploadMulterOptions('avatar', 5 * 1024 * 1024),
+    ),
+  )
+  async uploadAvatar(
+    @CurrentUser() _user: PublicUser,
+    @UploadedFile() file: MulterFile,
+  ) {
     const upload = this.uploadsService.storeFile('avatar', file);
     return buildApiResponse('Avatar uploaded successfully', upload);
   }
@@ -35,8 +43,16 @@ export class UploadsController {
   @Post('resume')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  @UseInterceptors(FileInterceptor('file', buildUploadMulterOptions('resume', 10 * 1024 * 1024)))
-  async uploadResume(@CurrentUser() _user: PublicUser, @UploadedFile() file: MulterFile) {
+  @UseInterceptors(
+    FileInterceptor(
+      'file',
+      buildUploadMulterOptions('resume', 10 * 1024 * 1024),
+    ),
+  )
+  async uploadResume(
+    @CurrentUser() _user: PublicUser,
+    @UploadedFile() file: MulterFile,
+  ) {
     const upload = this.uploadsService.storeFile('resume', file);
     return buildApiResponse('Resume uploaded successfully', upload);
   }
@@ -45,7 +61,12 @@ export class UploadsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
   @HttpCode(HttpStatus.CREATED)
-  @UseInterceptors(FileInterceptor('file', buildUploadMulterOptions('project-image', 8 * 1024 * 1024)))
+  @UseInterceptors(
+    FileInterceptor(
+      'file',
+      buildUploadMulterOptions('project-image', 8 * 1024 * 1024),
+    ),
+  )
   async uploadProjectImage(@UploadedFile() file: MulterFile) {
     const upload = this.uploadsService.storeFile('project-image', file);
     return buildApiResponse('Project image uploaded successfully', upload);
@@ -55,7 +76,12 @@ export class UploadsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
   @HttpCode(HttpStatus.CREATED)
-  @UseInterceptors(FileInterceptor('file', buildUploadMulterOptions('certificate-image', 8 * 1024 * 1024)))
+  @UseInterceptors(
+    FileInterceptor(
+      'file',
+      buildUploadMulterOptions('certificate-image', 8 * 1024 * 1024),
+    ),
+  )
   async uploadCertificateImage(@UploadedFile() file: MulterFile) {
     const upload = this.uploadsService.storeFile('certificate-image', file);
     return buildApiResponse('Certificate image uploaded successfully', upload);
@@ -65,7 +91,12 @@ export class UploadsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
   @HttpCode(HttpStatus.CREATED)
-  @UseInterceptors(FileInterceptor('file', buildUploadMulterOptions('certificate-pdf', 15 * 1024 * 1024)))
+  @UseInterceptors(
+    FileInterceptor(
+      'file',
+      buildUploadMulterOptions('certificate-pdf', 15 * 1024 * 1024),
+    ),
+  )
   async uploadCertificatePdf(@UploadedFile() file: MulterFile) {
     const upload = this.uploadsService.storeFile('certificate-pdf', file);
     return buildApiResponse('Certificate PDF uploaded successfully', upload);

@@ -1,4 +1,12 @@
-﻿import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+﻿import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { buildApiResponse } from '@shared/helpers/api-response.helper';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
@@ -34,35 +42,56 @@ export class AiController {
   @Get('reports/:id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
-  async getReportById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getReportById(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const report = await this.aiService.getReportById(id);
     return buildApiResponse('AI report loaded successfully', report);
   }
 
   @Post('resume-draft')
   @UseGuards(JwtAuthGuard)
-  async generateResumeDraft(@CurrentUser() user: PublicUser, @Body() dto: GenerateResumeAiDto) {
-    const result = await this.aiService.generateResumeDraft(dto, { userId: user.id });
+  async generateResumeDraft(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: GenerateResumeAiDto,
+  ) {
+    const result = await this.aiService.generateResumeDraft(dto, {
+      userId: user.id,
+    });
     return buildApiResponse('Resume draft generated successfully', result);
   }
 
   @Post('skill-analysis')
   @UseGuards(JwtAuthGuard)
-  async analyzeSkills(@CurrentUser() user: PublicUser, @Body() dto: GenerateSkillAnalysisDto) {
+  async analyzeSkills(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: GenerateSkillAnalysisDto,
+  ) {
     const result = await this.aiService.analyzeSkills(dto, { userId: user.id });
     return buildApiResponse('Skill analysis generated successfully', result);
   }
 
   @Post('interview-simulation')
   @UseGuards(JwtAuthGuard)
-  async simulateInterview(@CurrentUser() user: PublicUser, @Body() dto: GenerateInterviewDto) {
-    const result = await this.aiService.simulateInterview(dto, { userId: user.id });
-    return buildApiResponse('Interview simulation generated successfully', result);
+  async simulateInterview(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: GenerateInterviewDto,
+  ) {
+    const result = await this.aiService.simulateInterview(dto, {
+      userId: user.id,
+    });
+    return buildApiResponse(
+      'Interview simulation generated successfully',
+      result,
+    );
   }
 
   @Post('code-review')
   @UseGuards(JwtAuthGuard)
-  async reviewCode(@CurrentUser() user: PublicUser, @Body() dto: GenerateCodeReviewDto) {
+  async reviewCode(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: GenerateCodeReviewDto,
+  ) {
     const result = await this.aiService.reviewCode(dto, { userId: user.id });
     return buildApiResponse('Code review generated successfully', result);
   }

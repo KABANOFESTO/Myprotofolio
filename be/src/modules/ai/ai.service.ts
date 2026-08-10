@@ -6,7 +6,13 @@ import { GenerateResumeAiDto } from './dto/generate-resume-ai.dto';
 import { GenerateSkillAnalysisDto } from './dto/generate-skill-analysis.dto';
 import { GenerateInterviewDto } from './dto/generate-interview.dto';
 import { GenerateCodeReviewDto } from './dto/generate-code-review.dto';
-import type { AiReportView, CodeReviewAiResult, InterviewSimulationAiResult, ResumeAiResult, SkillAnalysisAiResult } from './interfaces/ai.interfaces';
+import type {
+  AiReportView,
+  CodeReviewAiResult,
+  InterviewSimulationAiResult,
+  ResumeAiResult,
+  SkillAnalysisAiResult,
+} from './interfaces/ai.interfaces';
 
 const AI_REPORT_SELECT = {
   id: true,
@@ -21,7 +27,9 @@ const AI_REPORT_SELECT = {
   userId: true,
 } as const satisfies Prisma.AiReportSelect;
 
-type AiReportEntity = Prisma.AiReportGetPayload<{ select: typeof AI_REPORT_SELECT }>;
+type AiReportEntity = Prisma.AiReportGetPayload<{
+  select: typeof AI_REPORT_SELECT;
+}>;
 
 interface ResumeGenerationContext {
   userId?: string;
@@ -97,14 +105,19 @@ export class AiService {
     dto: GenerateResumeAiDto,
     context: ResumeGenerationContext,
   ): Promise<{ report: AiReportView; result: ResumeAiResult }> {
-    const targetRole = dto.targetRole || context.targetRole || 'Software Developer';
+    const targetRole =
+      dto.targetRole || context.targetRole || 'Software Developer';
     const tone = dto.tone || context.tone || 'professional';
-    const focusKeywords = dto.focusKeywords?.length ? dto.focusKeywords : context.focusKeywords || [];
+    const focusKeywords = dto.focusKeywords?.length
+      ? dto.focusKeywords
+      : context.focusKeywords || [];
 
     const prompt = [
       `Create a concise resume summary package for a ${tone} portfolio.`,
       `Target role: ${targetRole}.`,
-      focusKeywords.length > 0 ? `Focus keywords: ${focusKeywords.join(', ')}.` : '',
+      focusKeywords.length > 0
+        ? `Focus keywords: ${focusKeywords.join(', ')}.`
+        : '',
       'Return strict JSON with keys: headline, summary, strengths, keywords, experienceHighlights, projectHighlights, recommendedImprovements, score.',
       `Profile context: ${JSON.stringify(context.profile ?? {})}`,
       `Skills: ${JSON.stringify(context.skills ?? [])}`,
@@ -116,7 +129,11 @@ export class AiService {
       .filter(Boolean)
       .join('\n');
 
-    const fallback = this.buildResumeFallback(targetRole, focusKeywords, context);
+    const fallback = this.buildResumeFallback(
+      targetRole,
+      focusKeywords,
+      context,
+    );
     return this.generateStructuredJson<ResumeAiResult>({
       type: AiReportType.RESUME_GENERATION,
       title: `Resume draft for ${targetRole}`,
@@ -136,8 +153,10 @@ export class AiService {
     dto: GenerateSkillAnalysisDto,
     context: SkillAnalysisContext,
   ): Promise<{ report: AiReportView; result: SkillAnalysisAiResult }> {
-    const targetRole = dto.targetRole || context.targetRole || 'Software Developer';
-    const currentRole = dto.currentRole || context.currentRole || 'Portfolio Builder';
+    const targetRole =
+      dto.targetRole || context.targetRole || 'Software Developer';
+    const currentRole =
+      dto.currentRole || context.currentRole || 'Portfolio Builder';
     const prompt = [
       `Analyze the developer profile for the target role "${targetRole}" and current role "${currentRole}".`,
       'Return strict JSON with keys: summary, strengths, gaps, recommendations, score.',
@@ -257,10 +276,16 @@ export class AiService {
       'ai.baseUrl',
       'https://generativelanguage.googleapis.com/v1beta',
     );
-    const model = this.configService.get<string>('ai.model', 'gemini-1.5-flash');
+    const model = this.configService.get<string>(
+      'ai.model',
+      'gemini-1.5-flash',
+    );
     const apiKey = this.configService.get<string>('ai.apiKey', '');
     const temperature = this.configService.get<number>('ai.temperature', 0.3);
-    const maxOutputTokens = this.configService.get<number>('ai.maxOutputTokens', 2048);
+    const maxOutputTokens = this.configService.get<number>(
+      'ai.maxOutputTokens',
+      2048,
+    );
     const timeoutMs = this.configService.get<number>('ai.timeoutMs', 30000);
 
     let result = params.fallback;
@@ -300,7 +325,10 @@ export class AiService {
         ...(result as Record<string, unknown>),
         source,
       } as Prisma.InputJsonValue,
-      score: typeof (result as { score?: number | null }).score === 'number' ? ((result as { score?: number | null }).score ?? null) : null,
+      score:
+        typeof (result as { score?: number | null }).score === 'number'
+          ? ((result as { score?: number | null }).score ?? null)
+          : null,
     });
 
     return {
@@ -348,11 +376,15 @@ export class AiService {
         );
 
         if (!response.ok) {
-          throw new Error(`Gemini request failed with status ${response.status}`);
+          throw new Error(
+            `Gemini request failed with status ${response.status}`,
+          );
         }
 
         const payload = (await response.json()) as {
-          candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+          candidates?: Array<{
+            content?: { parts?: Array<{ text?: string }> };
+          }>;
         };
         const text = payload.candidates?.[0]?.content?.parts?.[0]?.text;
         return this.parseJsonPayload<T>(text, params.fallback);
@@ -381,7 +413,8 @@ export class AiService {
         choices?: Array<{ message?: { content?: string } }>;
         output_text?: string;
       };
-      const text = payload.choices?.[0]?.message?.content ?? payload.output_text ?? '';
+      const text =
+        payload.choices?.[0]?.message?.content ?? payload.output_text ?? '';
       return this.parseJsonPayload<T>(text, params.fallback);
     } finally {
       clearTimeout(timeout);
@@ -394,7 +427,9 @@ export class AiService {
     }
 
     const trimmed = payload.trim();
-    const stripped = trimmed.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
+    const stripped = trimmed
+      .replace(/^```(?:json)?\s*/i, '')
+      .replace(/\s*```$/i, '');
 
     try {
       return JSON.parse(stripped) as T;
@@ -407,17 +442,31 @@ export class AiService {
     return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
   }
 
-  private buildResumeFallback(targetRole: string, focusKeywords: string[], context: ResumeGenerationContext): ResumeAiResult {
+  private buildResumeFallback(
+    targetRole: string,
+    focusKeywords: string[],
+    context: ResumeGenerationContext,
+  ): ResumeAiResult {
     const headline = `${targetRole} | Portfolio-ready developer`;
-    const summary = [context.profile?.['headline'], context.profile?.['bio'], context.profile?.['about']]
-      .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+    const summary = [
+      context.profile?.['headline'],
+      context.profile?.['bio'],
+      context.profile?.['about'],
+    ]
+      .filter(
+        (item): item is string =>
+          typeof item === 'string' && item.trim().length > 0,
+      )
       .map((item) => item.trim())
       .slice(0, 2)
       .join(' ');
 
     const experienceHighlights = (context.experiences ?? [])
       .slice(0, 3)
-      .map((experience) => `${String(experience['role'] ?? 'Developer')} at ${String(experience['company'] ?? 'Company')}`);
+      .map(
+        (experience) =>
+          `${String(experience['role'] ?? 'Developer')} at ${String(experience['company'] ?? 'Company')}`,
+      );
 
     const projectHighlights = (context.projects ?? [])
       .slice(0, 3)
@@ -425,9 +474,20 @@ export class AiService {
 
     return {
       headline,
-      summary: summary || `Experienced developer building production-ready digital products with focus on ${targetRole.toLowerCase()}.`,
-      strengths: focusKeywords.length ? focusKeywords.slice(0, 5) : ['Problem solving', 'Product thinking', 'Clean implementation', 'Reliability'],
-      keywords: focusKeywords.length ? focusKeywords : [targetRole, 'portfolio', 'frontend', 'backend'],
+      summary:
+        summary ||
+        `Experienced developer building production-ready digital products with focus on ${targetRole.toLowerCase()}.`,
+      strengths: focusKeywords.length
+        ? focusKeywords.slice(0, 5)
+        : [
+            'Problem solving',
+            'Product thinking',
+            'Clean implementation',
+            'Reliability',
+          ],
+      keywords: focusKeywords.length
+        ? focusKeywords
+        : [targetRole, 'portfolio', 'frontend', 'backend'],
       experienceHighlights,
       projectHighlights,
       recommendedImprovements: [
@@ -440,12 +500,25 @@ export class AiService {
     };
   }
 
-  private buildSkillFallback(targetRole: string, currentRole: string, context: SkillAnalysisContext): SkillAnalysisAiResult {
-    const skills = (context.skills ?? []).slice(0, 5).map((skill) => String(skill['name'] ?? 'Skill'));
+  private buildSkillFallback(
+    targetRole: string,
+    currentRole: string,
+    context: SkillAnalysisContext,
+  ): SkillAnalysisAiResult {
+    const skills = (context.skills ?? [])
+      .slice(0, 5)
+      .map((skill) => String(skill['name'] ?? 'Skill'));
     return {
       summary: `The profile is aligned for ${targetRole} with a current focus on ${currentRole}.`,
-      strengths: skills.length > 0 ? skills : ['Problem solving', 'Systems thinking', 'API design'],
-      gaps: ['Role-specific depth', 'Metrics-backed achievements', 'Recent project emphasis'],
+      strengths:
+        skills.length > 0
+          ? skills
+          : ['Problem solving', 'Systems thinking', 'API design'],
+      gaps: [
+        'Role-specific depth',
+        'Metrics-backed achievements',
+        'Recent project emphasis',
+      ],
       recommendations: [
         'Highlight the strongest production wins.',
         'Group skills by impact and relevance.',
@@ -456,7 +529,11 @@ export class AiService {
     };
   }
 
-  private buildInterviewFallback(role: string, difficulty: string, context: InterviewContext): InterviewSimulationAiResult {
+  private buildInterviewFallback(
+    role: string,
+    difficulty: string,
+    context: InterviewContext,
+  ): InterviewSimulationAiResult {
     return {
       summary: `Interview practice for a ${difficulty.toLowerCase()} ${role} role.`,
       questions: [
@@ -466,7 +543,12 @@ export class AiService {
         },
         {
           question: 'How do you make sure your work is production-ready?',
-          idealAnswerPoints: ['Testing', 'reviews', 'observability', 'error handling'],
+          idealAnswerPoints: [
+            'Testing',
+            'reviews',
+            'observability',
+            'error handling',
+          ],
         },
       ],
       score: context.profile ? 80 : 70,
@@ -474,7 +556,10 @@ export class AiService {
     };
   }
 
-  private buildCodeReviewFallback(language: string, code: string): CodeReviewAiResult {
+  private buildCodeReviewFallback(
+    language: string,
+    code: string,
+  ): CodeReviewAiResult {
     const hasLongFile = code.length > 2000;
     return {
       summary: `Fallback review for ${language} code.`,
@@ -483,17 +568,23 @@ export class AiService {
             {
               severity: 'medium',
               message: 'The snippet is quite large for a single review pass.',
-              suggestion: 'Split the code into smaller units with focused responsibilities.',
+              suggestion:
+                'Split the code into smaller units with focused responsibilities.',
             },
           ]
         : [
             {
               severity: 'low',
               message: 'Review completed in fallback mode.',
-              suggestion: 'Run this review again with AI enabled for a deeper analysis.',
+              suggestion:
+                'Run this review again with AI enabled for a deeper analysis.',
             },
           ],
-      bestPractices: ['Keep functions small', 'Validate inputs', 'Log meaningful errors'],
+      bestPractices: [
+        'Keep functions small',
+        'Validate inputs',
+        'Log meaningful errors',
+      ],
       score: 72,
       source: 'fallback',
     };

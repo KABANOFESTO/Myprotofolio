@@ -12,9 +12,13 @@ import {
   MinLength,
 } from 'class-validator';
 import { IsSlug } from '@common/validators/is-slug.validator';
-import { parseBoolean, parseDateOrUndefined, splitToStringArray, trimToUndefined } from '@common/utils';
+import {
+  parseBoolean,
+  parseDateOrUndefined,
+  splitToStringArray,
+  trimToUndefined,
+} from '@common/utils';
 import { ProjectStatus } from '@prisma/client';
-
 
 export class UpdateProjectDto {
   @IsOptional()
@@ -40,7 +44,10 @@ export class UpdateProjectDto {
 
   @IsOptional()
   @Transform(({ value }) => trimToUndefined(value))
-  @IsUrl({ require_tld: false }, { message: 'repositoryUrl must be a valid URL' })
+  @IsUrl(
+    { require_tld: false },
+    { message: 'repositoryUrl must be a valid URL' },
+  )
   @MaxLength(255)
   repositoryUrl?: string;
 
@@ -91,8 +98,3 @@ export class UpdateProjectDto {
   @IsDate()
   endDate?: Date;
 }
-
-
-
-
-

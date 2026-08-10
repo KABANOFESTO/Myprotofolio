@@ -1,5 +1,14 @@
 import { Transform } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, IsString, Max, Min, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { SkillCategory } from '@prisma/client';
 
 function trimToUndefined(value: unknown) {

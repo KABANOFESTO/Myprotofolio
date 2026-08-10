@@ -1,5 +1,11 @@
 ﻿import { Transform } from 'class-transformer';
-import { IsEnum, IsObject, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsEnum,
+  IsObject,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { Prisma, NotificationType } from '@prisma/client';
 import { trimToUndefined } from '@common/utils';
 

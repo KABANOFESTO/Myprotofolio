@@ -1,5 +1,13 @@
 import { Transform } from 'class-transformer';
-import { IsBoolean, IsDate, IsOptional, IsString, MaxLength, MinLength, IsArray } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+  IsArray,
+} from 'class-validator';
 
 function trimToUndefined(value: unknown) {
   if (typeof value !== 'string') {

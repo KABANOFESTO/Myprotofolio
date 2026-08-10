@@ -9,7 +9,11 @@ import { PrismaService } from '@database/prisma/prisma.service';
 import type { PublicUser } from '@modules/auth/interfaces/auth.interfaces';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
-import type { SkillCategoryOption, SkillDeleteResult, SkillView } from './interfaces/skill.interfaces';
+import type {
+  SkillCategoryOption,
+  SkillDeleteResult,
+  SkillView,
+} from './interfaces/skill.interfaces';
 
 const SKILL_SELECT = {
   id: true,
@@ -54,7 +58,10 @@ export class SkillsService {
     }));
   }
 
-  async createSkill(actor: PublicUser, dto: CreateSkillDto): Promise<SkillView> {
+  async createSkill(
+    actor: PublicUser,
+    dto: CreateSkillDto,
+  ): Promise<SkillView> {
     this.assertCanManage(actor);
 
     await this.ensureNameIsAvailable(dto.name);
@@ -82,17 +89,26 @@ export class SkillsService {
 
     const skill = await this.findSkillOrThrow(skillId);
 
-    if (dto.name !== undefined && this.normalizeText(dto.name).toLowerCase() !== skill.name.toLowerCase()) {
+    if (
+      dto.name !== undefined &&
+      this.normalizeText(dto.name).toLowerCase() !== skill.name.toLowerCase()
+    ) {
       await this.ensureNameIsAvailable(dto.name, skillId);
     }
 
     const updated = await this.prisma.skill.update({
       where: { id: skillId },
       data: {
-        ...(dto.name !== undefined ? { name: this.normalizeText(dto.name) } : {}),
+        ...(dto.name !== undefined
+          ? { name: this.normalizeText(dto.name) }
+          : {}),
         ...(dto.category !== undefined ? { category: dto.category } : {}),
-        ...(dto.proficiency !== undefined ? { proficiency: dto.proficiency } : {}),
-        ...(dto.icon !== undefined ? { icon: this.normalizeText(dto.icon) } : {}),
+        ...(dto.proficiency !== undefined
+          ? { proficiency: dto.proficiency }
+          : {}),
+        ...(dto.icon !== undefined
+          ? { icon: this.normalizeText(dto.icon) }
+          : {}),
         ...(dto.sortOrder !== undefined ? { sortOrder: dto.sortOrder } : {}),
       },
       select: SKILL_SELECT,
@@ -101,7 +117,10 @@ export class SkillsService {
     return this.toSkillView(updated);
   }
 
-  async deleteSkill(actor: PublicUser, skillId: string): Promise<SkillDeleteResult> {
+  async deleteSkill(
+    actor: PublicUser,
+    skillId: string,
+  ): Promise<SkillDeleteResult> {
     this.assertCanManage(actor);
     await this.findSkillOrThrow(skillId);
 
@@ -116,7 +135,9 @@ export class SkillsService {
     });
 
     if (!skill) {
-      throw new ForbiddenException('You do not have permission to manage skills');
+      throw new ForbiddenException(
+        'You do not have permission to manage skills',
+      );
     }
 
     return skill;
@@ -158,4 +179,3 @@ export class SkillsService {
     };
   }
 }
-

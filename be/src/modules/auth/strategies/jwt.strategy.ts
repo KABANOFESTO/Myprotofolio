@@ -4,10 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import type { Request } from 'express';
 import { AuthService } from '../auth.service';
-import {
-  JwtAccessPayload,
-  PublicUser,
-} from '../interfaces/auth.interfaces';
+import { JwtAccessPayload, PublicUser } from '../interfaces/auth.interfaces';
 function cookieOrBearerExtractor(cookieName: string) {
   return (req: Request): string | null => {
     if (!req) {

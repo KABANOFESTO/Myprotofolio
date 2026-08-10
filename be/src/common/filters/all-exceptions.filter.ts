@@ -20,10 +20,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const requestWithContext = request as unknown as Partial<RequestWithContext>;
+    const requestWithContext =
+      request as unknown as Partial<RequestWithContext>;
 
     const httpException = exception instanceof HttpException ? exception : null;
-    const statusCode = httpException?.getStatus() ?? HttpStatus.INTERNAL_SERVER_ERROR;
+    const statusCode =
+      httpException?.getStatus() ?? HttpStatus.INTERNAL_SERVER_ERROR;
     const responseBody = httpException?.getResponse();
     const message = this.resolveMessage(exception, responseBody, statusCode);
     const error = this.resolveErrorCode(statusCode);
@@ -36,7 +38,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
         code: error,
         path: request.url,
         method: request.method,
-        requestId: requestWithContext.requestId ?? (request.header(RequestHeader.REQUEST_ID) ?? undefined),
+        requestId:
+          requestWithContext.requestId ??
+          request.header(RequestHeader.REQUEST_ID) ??
+          undefined,
         details: this.resolveDetails(responseBody),
       },
       timestamp: new Date().toISOString(),
@@ -52,12 +57,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
     response.status(statusCode).json(payload);
   }
 
-  private resolveMessage(exception: unknown, responseBody: unknown, statusCode: number) {
+  private resolveMessage(
+    exception: unknown,
+    responseBody: unknown,
+    statusCode: number,
+  ) {
     if (typeof responseBody === 'string') {
       return responseBody;
     }
 
-    if (responseBody && typeof responseBody === 'object' && 'message' in responseBody) {
+    if (
+      responseBody &&
+      typeof responseBody === 'object' &&
+      'message' in responseBody
+    ) {
       const message = (responseBody as { message?: string | string[] }).message;
       if (Array.isArray(message)) {
         return message.join(', ');
@@ -106,4 +119,3 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
   }
 }
-

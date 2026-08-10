@@ -8,7 +8,10 @@ import { Prisma, ContactStatus, UserRole } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
-import type { ContactDeleteResult, ContactView } from './interfaces/contact.interfaces';
+import type {
+  ContactDeleteResult,
+  ContactView,
+} from './interfaces/contact.interfaces';
 
 const CONTACT_USER_SELECT = {
   id: true,
@@ -34,13 +37,18 @@ const CONTACT_SELECT = {
   },
 } as const satisfies Prisma.ContactMessageSelect;
 
-type ContactEntity = Prisma.ContactMessageGetPayload<{ select: typeof CONTACT_SELECT }>;
+type ContactEntity = Prisma.ContactMessageGetPayload<{
+  select: typeof CONTACT_SELECT;
+}>;
 
 @Injectable()
 export class ContactsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createContact(dto: CreateContactDto, userId?: string): Promise<ContactView> {
+  async createContact(
+    dto: CreateContactDto,
+    userId?: string,
+  ): Promise<ContactView> {
     if (userId) {
       const user = await this.prisma.user.findUnique({
         where: { id: userId },
@@ -67,7 +75,9 @@ export class ContactsService {
     return this.toView(contact);
   }
 
-  async listContacts(params?: { status?: ContactStatus }): Promise<ContactView[]> {
+  async listContacts(params?: {
+    status?: ContactStatus;
+  }): Promise<ContactView[]> {
     const contacts = await this.prisma.contactMessage.findMany({
       where: params?.status ? { status: params.status } : undefined,
       orderBy: [{ createdAt: 'desc' }],
@@ -89,7 +99,11 @@ export class ContactsService {
 
     if (dto.status !== undefined) {
       data.status = dto.status;
-      if (dto.status === ContactStatus.RESOLVED && !dto.respondedAt && !existing.respondedAt) {
+      if (
+        dto.status === ContactStatus.RESOLVED &&
+        !dto.respondedAt &&
+        !existing.respondedAt
+      ) {
         data.respondedAt = new Date();
       }
     }
@@ -100,7 +114,6 @@ export class ContactsService {
         data.status = ContactStatus.IN_PROGRESS;
       }
     }
-
 
     const updated = await this.prisma.contactMessage.update({
       where: { id },
@@ -173,4 +186,3 @@ export class ContactsService {
     };
   }
 }
-

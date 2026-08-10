@@ -33,7 +33,9 @@ export class CertificatesController {
   }
 
   @Get(':id')
-  async getCertificate(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getCertificate(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const certificate = await this.certificatesService.getCertificateById(id);
     return buildApiResponse('Certificate loaded successfully', certificate);
   }
@@ -45,7 +47,10 @@ export class CertificatesController {
     @CurrentUser() user: PublicUser,
     @Body() dto: CreateCertificateDto,
   ) {
-    const certificate = await this.certificatesService.createCertificate(user, dto);
+    const certificate = await this.certificatesService.createCertificate(
+      user,
+      dto,
+    );
     return buildApiResponse('Certificate created successfully', certificate);
   }
 
@@ -57,7 +62,11 @@ export class CertificatesController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: UpdateCertificateDto,
   ) {
-    const certificate = await this.certificatesService.updateCertificate(user, id, dto);
+    const certificate = await this.certificatesService.updateCertificate(
+      user,
+      id,
+      dto,
+    );
     return buildApiResponse('Certificate updated successfully', certificate);
   }
 

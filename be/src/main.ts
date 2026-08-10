@@ -28,9 +28,16 @@ async function bootstrap() {
     origin: corsOrigin,
     credentials: true,
   });
-  expressApp.useStaticAssets(join(process.cwd(), 'uploads', 'avatars'), { prefix: '/uploads/avatars' });
-  expressApp.useStaticAssets(join(process.cwd(), 'uploads', 'projects'), { prefix: '/uploads/projects' });
-  expressApp.useStaticAssets(join(process.cwd(), 'uploads', 'certificates', 'images'), { prefix: '/uploads/certificates/images' });
+  expressApp.useStaticAssets(join(process.cwd(), 'uploads', 'avatars'), {
+    prefix: '/uploads/avatars',
+  });
+  expressApp.useStaticAssets(join(process.cwd(), 'uploads', 'projects'), {
+    prefix: '/uploads/projects',
+  });
+  expressApp.useStaticAssets(
+    join(process.cwd(), 'uploads', 'certificates', 'images'),
+    { prefix: '/uploads/certificates/images' },
+  );
   app.use(cookieParser());
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalInterceptors(new RequestLoggingInterceptor());
@@ -49,6 +56,8 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   await app.listen(port, '0.0.0.0');
-  logger.log(`Application is running on http://localhost:${port}/${globalPrefix}`);
+  logger.log(
+    `Application is running on http://localhost:${port}/${globalPrefix}`,
+  );
 }
-bootstrap();
+void bootstrap();

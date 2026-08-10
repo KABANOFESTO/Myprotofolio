@@ -1,4 +1,9 @@
-export type UploadScope = 'avatar' | 'resume' | 'project-image' | 'certificate-image' | 'certificate-pdf';
+export type UploadScope =
+  | 'avatar'
+  | 'resume'
+  | 'project-image'
+  | 'certificate-image'
+  | 'certificate-pdf';
 
 export interface StoredUpload {
   scope: UploadScope;

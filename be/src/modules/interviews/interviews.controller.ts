@@ -29,7 +29,10 @@ export class InterviewsController {
   @UseGuards(JwtAuthGuard)
   async getTemplates() {
     const templates = this.interviewsService.getTemplates();
-    return buildApiResponse('Interview templates loaded successfully', templates);
+    return buildApiResponse(
+      'Interview templates loaded successfully',
+      templates,
+    );
   }
 
   @Get('summary')
@@ -42,7 +45,10 @@ export class InterviewsController {
 
   @Post('me/sessions')
   @UseGuards(JwtAuthGuard)
-  async createSession(@CurrentUser() user: PublicUser, @Body() dto: CreateInterviewSessionDto) {
+  async createSession(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: CreateInterviewSessionDto,
+  ) {
     const session = await this.interviewsService.createSession(user, dto);
     return buildApiResponse('Interview session created successfully', session);
   }
@@ -71,7 +77,11 @@ export class InterviewsController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: SubmitInterviewAnswersDto,
   ) {
-    const session = await this.interviewsService.submitAnswers(user.id, id, dto);
+    const session = await this.interviewsService.submitAnswers(
+      user.id,
+      id,
+      dto,
+    );
     return buildApiResponse('Interview answers saved successfully', session);
   }
 
@@ -82,8 +92,15 @@ export class InterviewsController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: GenerateInterviewFeedbackDto,
   ) {
-    const session = await this.interviewsService.generateFeedback(user.id, id, dto);
-    return buildApiResponse('Interview feedback generated successfully', session);
+    const session = await this.interviewsService.generateFeedback(
+      user.id,
+      id,
+      dto,
+    );
+    return buildApiResponse(
+      'Interview feedback generated successfully',
+      session,
+    );
   }
 
   @Delete('me/sessions/:id')
@@ -107,7 +124,9 @@ export class InterviewsController {
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
-  async getSessionForAdmin(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getSessionForAdmin(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const session = await this.interviewsService.getSessionForAdmin(id);
     return buildApiResponse('Interview session loaded successfully', session);
   }

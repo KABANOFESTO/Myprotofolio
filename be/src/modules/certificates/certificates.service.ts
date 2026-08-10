@@ -9,7 +9,10 @@ import { PrismaService } from '@database/prisma/prisma.service';
 import type { PublicUser } from '@modules/auth/interfaces/auth.interfaces';
 import { CreateCertificateDto } from './dto/create-certificate.dto';
 import { UpdateCertificateDto } from './dto/update-certificate.dto';
-import type { CertificateDeleteResult, CertificateView } from './interfaces/certificate.interfaces';
+import type {
+  CertificateDeleteResult,
+  CertificateView,
+} from './interfaces/certificate.interfaces';
 
 const CERTIFICATE_SELECT = {
   id: true,
@@ -26,7 +29,9 @@ const CERTIFICATE_SELECT = {
   updatedAt: true,
 } as const satisfies Prisma.CertificateSelect;
 
-type CertificateEntity = Prisma.CertificateGetPayload<{ select: typeof CERTIFICATE_SELECT }>;
+type CertificateEntity = Prisma.CertificateGetPayload<{
+  select: typeof CERTIFICATE_SELECT;
+}>;
 
 @Injectable()
 export class CertificatesService {
@@ -46,7 +51,10 @@ export class CertificatesService {
     return this.toView(certificate);
   }
 
-  async createCertificate(actor: PublicUser, dto: CreateCertificateDto): Promise<CertificateView> {
+  async createCertificate(
+    actor: PublicUser,
+    dto: CreateCertificateDto,
+  ): Promise<CertificateView> {
     this.assertCanManage(actor);
     this.validateDates(dto.issuedAt, dto.expiredAt);
 
@@ -85,7 +93,10 @@ export class CertificatesService {
     return this.toView(certificate);
   }
 
-  async deleteCertificate(actor: PublicUser, id: string): Promise<CertificateDeleteResult> {
+  async deleteCertificate(
+    actor: PublicUser,
+    id: string,
+  ): Promise<CertificateDeleteResult> {
     this.assertCanManage(actor);
     await this.findCertificateOrThrow(id);
 
@@ -111,7 +122,9 @@ export class CertificatesService {
       return;
     }
 
-    throw new ForbiddenException('You do not have permission to manage certificates');
+    throw new ForbiddenException(
+      'You do not have permission to manage certificates',
+    );
   }
 
   private buildCreateData(dto: CreateCertificateDto) {
@@ -131,14 +144,20 @@ export class CertificatesService {
   private buildUpdateData(dto: UpdateCertificateDto) {
     const data: Partial<ReturnType<typeof this.buildCreateData>> = {};
 
-    if (dto.title !== undefined) data.title = this.normalizeRequiredText(dto.title);
-    if (dto.issuer !== undefined) data.issuer = this.normalizeRequiredText(dto.issuer);
-    if (dto.credentialId !== undefined) data.credentialId = this.normalizeOptionalText(dto.credentialId);
+    if (dto.title !== undefined)
+      data.title = this.normalizeRequiredText(dto.title);
+    if (dto.issuer !== undefined)
+      data.issuer = this.normalizeRequiredText(dto.issuer);
+    if (dto.credentialId !== undefined)
+      data.credentialId = this.normalizeOptionalText(dto.credentialId);
     if (dto.issuedAt !== undefined) data.issuedAt = dto.issuedAt;
     if (dto.expiredAt !== undefined) data.expiredAt = dto.expiredAt;
-    if (dto.verificationUrl !== undefined) data.verificationUrl = this.normalizeOptionalText(dto.verificationUrl);
-    if (dto.pdfUrl !== undefined) data.pdfUrl = this.normalizeOptionalText(dto.pdfUrl);
-    if (dto.imageUrl !== undefined) data.imageUrl = this.normalizeOptionalText(dto.imageUrl);
+    if (dto.verificationUrl !== undefined)
+      data.verificationUrl = this.normalizeOptionalText(dto.verificationUrl);
+    if (dto.pdfUrl !== undefined)
+      data.pdfUrl = this.normalizeOptionalText(dto.pdfUrl);
+    if (dto.imageUrl !== undefined)
+      data.imageUrl = this.normalizeOptionalText(dto.imageUrl);
     if (dto.skills !== undefined) data.skills = this.normalizeArray(dto.skills);
 
     return data;
@@ -173,7 +192,9 @@ export class CertificatesService {
   }
 
   private normalizeArray(values: string[]) {
-    const normalized = values.map((value) => value.trim()).filter((value) => value.length > 0);
+    const normalized = values
+      .map((value) => value.trim())
+      .filter((value) => value.length > 0);
 
     if (normalized.length === 0) {
       throw new BadRequestException('skills cannot be empty');

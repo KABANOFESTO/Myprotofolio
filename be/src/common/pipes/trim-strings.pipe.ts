@@ -9,9 +9,16 @@ function trimDeep(value: unknown): unknown {
     return value.map((item) => trimDeep(item));
   }
 
-  if (value && typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype) {
+  if (
+    value &&
+    typeof value === 'object' &&
+    Object.getPrototypeOf(value) === Object.prototype
+  ) {
     return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).map(([key, item]) => [key, trimDeep(item)]),
+      Object.entries(value as Record<string, unknown>).map(([key, item]) => [
+        key,
+        trimDeep(item),
+      ]),
     );
   }
 

@@ -1,4 +1,7 @@
-﻿import { AiReportView, ResumeAiResult } from '@modules/ai/interfaces/ai.interfaces';
+﻿import {
+  AiReportView,
+  ResumeAiResult,
+} from '@modules/ai/interfaces/ai.interfaces';
 
 export interface PrivateResumeView {
   user: {

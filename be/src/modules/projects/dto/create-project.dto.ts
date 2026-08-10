@@ -12,13 +12,19 @@ import {
   MinLength,
 } from 'class-validator';
 import { IsSlug } from '@common/validators/is-slug.validator';
-import { parseBoolean, parseDateOrUndefined, splitToStringArray, trimToUndefined } from '@common/utils';
+import {
+  parseBoolean,
+  parseDateOrUndefined,
+  splitToStringArray,
+  trimToUndefined,
+} from '@common/utils';
 import { ProjectStatus } from '@prisma/client';
-
 
 export class CreateProjectDto {
   @Transform(({ value }) => trimToUndefined(value))
-  @IsSlug({ message: 'slug must contain only lowercase letters, numbers, and hyphens' })
+  @IsSlug({
+    message: 'slug must contain only lowercase letters, numbers, and hyphens',
+  })
   slug!: string;
 
   @Transform(({ value }) => trimToUndefined(value))
@@ -35,7 +41,10 @@ export class CreateProjectDto {
 
   @IsOptional()
   @Transform(({ value }) => trimToUndefined(value))
-  @IsUrl({ require_tld: false }, { message: 'repositoryUrl must be a valid URL' })
+  @IsUrl(
+    { require_tld: false },
+    { message: 'repositoryUrl must be a valid URL' },
+  )
   @MaxLength(255)
   repositoryUrl?: string;
 
@@ -84,8 +93,3 @@ export class CreateProjectDto {
   @IsDate()
   endDate?: Date;
 }
-
-
-
-
-

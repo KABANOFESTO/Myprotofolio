@@ -1,5 +1,14 @@
 ﻿import { Transform, Type } from 'class-transformer';
-import { IsArray, IsEmail, IsInt, IsOptional, IsString, MaxLength, Min, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsInt,
+  IsOptional,
+  IsString,
+  MaxLength,
+  Min,
+  ValidateNested,
+} from 'class-validator';
 import { trimToUndefined } from '@common/utils';
 
 export class CheckoutItemDto {
