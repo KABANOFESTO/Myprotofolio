@@ -33,7 +33,9 @@ export class EducationController {
   }
 
   @Get(':id')
-  async getEducation(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getEducation(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const education = await this.educationService.getEducationById(id);
     return buildApiResponse('Education loaded successfully', education);
   }
@@ -57,7 +59,11 @@ export class EducationController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: UpdateEducationDto,
   ) {
-    const education = await this.educationService.updateEducation(user, id, dto);
+    const education = await this.educationService.updateEducation(
+      user,
+      id,
+      dto,
+    );
     return buildApiResponse('Education updated successfully', education);
   }
 

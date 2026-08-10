@@ -95,7 +95,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const passwordMatches = await bcrypt.compare(dto.password, user.passwordHash);
+    const passwordMatches = await bcrypt.compare(
+      dto.password,
+      user.passwordHash,
+    );
     if (!passwordMatches) {
       throw new UnauthorizedException('Invalid email or password');
     }
@@ -333,9 +336,7 @@ export class AuthService {
         'auth.cookie.sameSite',
         'lax',
       ),
-      domain: this.configService.get<string | undefined>(
-        'auth.cookie.domain',
-      ),
+      domain: this.configService.get<string | undefined>('auth.cookie.domain'),
       path: this.configService.get<string>('auth.cookie.path', '/'),
     } as const;
   }

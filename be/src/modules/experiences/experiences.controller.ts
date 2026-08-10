@@ -33,7 +33,9 @@ export class ExperiencesController {
   }
 
   @Get(':id')
-  async getExperience(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async getExperience(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const experience = await this.experiencesService.getExperienceById(id);
     return buildApiResponse('Experience loaded successfully', experience);
   }
@@ -45,7 +47,10 @@ export class ExperiencesController {
     @CurrentUser() user: PublicUser,
     @Body() dto: CreateExperienceDto,
   ) {
-    const experience = await this.experiencesService.createExperience(user, dto);
+    const experience = await this.experiencesService.createExperience(
+      user,
+      dto,
+    );
     return buildApiResponse('Experience created successfully', experience);
   }
 
@@ -57,7 +62,11 @@ export class ExperiencesController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: UpdateExperienceDto,
   ) {
-    const experience = await this.experiencesService.updateExperience(user, id, dto);
+    const experience = await this.experiencesService.updateExperience(
+      user,
+      id,
+      dto,
+    );
     return buildApiResponse('Experience updated successfully', experience);
   }
 

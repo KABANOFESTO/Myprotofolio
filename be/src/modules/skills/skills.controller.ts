@@ -41,7 +41,10 @@ export class SkillsController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.OWNER)
-  async createSkill(@CurrentUser() user: PublicUser, @Body() dto: CreateSkillDto) {
+  async createSkill(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: CreateSkillDto,
+  ) {
     const skill = await this.skillsService.createSkill(user, dto);
     return buildApiResponse('Skill created successfully', skill);
   }

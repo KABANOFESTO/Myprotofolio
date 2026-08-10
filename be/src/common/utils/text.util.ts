@@ -69,5 +69,9 @@ export function parseDateOrUndefined(value: unknown): Date | undefined {
 }
 
 export function isEmptyObject(value: unknown): value is Record<string, never> {
-  return Boolean(value) && typeof value === 'object' && Object.keys(value as object).length === 0;
+  return (
+    Boolean(value) &&
+    typeof value === 'object' &&
+    Object.keys(value as object).length === 0
+  );
 }

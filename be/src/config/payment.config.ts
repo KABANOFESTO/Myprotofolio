@@ -11,5 +11,7 @@ export default registerAs('payment', () => ({
   appId: process.env.PAYPACK_APP_ID || '',
   webhookSecret: process.env.PAYPACK_WEBHOOK_SECRET || '',
   webhookMode: process.env.PAYPACK_WEBHOOK_MODE || 'development',
-  requestTimeoutSeconds: Number(process.env.PAYPACK_REQUEST_TIMEOUT_SECONDS || '30'),
+  requestTimeoutSeconds: Number(
+    process.env.PAYPACK_REQUEST_TIMEOUT_SECONDS || '30',
+  ),
 }));

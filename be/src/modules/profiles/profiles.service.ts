@@ -1,9 +1,17 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Prisma, UserRole } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
 import type { PublicUser } from '@modules/auth/interfaces/auth.interfaces';
 import { SaveProfileDto } from './dto/save-profile.dto';
-import type { ProfileDetails, ProfileSummary, ProfileView } from './interfaces/profile.interfaces';
+import type {
+  ProfileDetails,
+  ProfileSummary,
+  ProfileView,
+} from './interfaces/profile.interfaces';
 
 const PUBLIC_USER_SELECT = {
   id: true,
@@ -52,9 +60,15 @@ const PROFILE_SUMMARY_SELECT = {
   },
 } as const satisfies Prisma.UserSelect;
 
-type PublicUserEntity = Prisma.UserGetPayload<{ select: typeof PUBLIC_USER_SELECT }>;
-type ProfileEntity = Prisma.ProfileGetPayload<{ select: typeof PROFILE_SELECT }>;
-type ProfileSummaryEntity = Prisma.UserGetPayload<{ select: typeof PROFILE_SUMMARY_SELECT }>;
+type PublicUserEntity = Prisma.UserGetPayload<{
+  select: typeof PUBLIC_USER_SELECT;
+}>;
+type ProfileEntity = Prisma.ProfileGetPayload<{
+  select: typeof PROFILE_SELECT;
+}>;
+type ProfileSummaryEntity = Prisma.UserGetPayload<{
+  select: typeof PROFILE_SUMMARY_SELECT;
+}>;
 
 @Injectable()
 export class ProfilesService {
@@ -70,7 +84,10 @@ export class ProfilesService {
     return this.toProfileView(user);
   }
 
-  async saveMyProfile(userId: string, dto: SaveProfileDto): Promise<ProfileView> {
+  async saveMyProfile(
+    userId: string,
+    dto: SaveProfileDto,
+  ): Promise<ProfileView> {
     const user = await this.findActiveUserOrThrow(userId, true);
     const payload = this.normalizeProfilePayload(dto);
 
@@ -103,7 +120,10 @@ export class ProfilesService {
     return this.toProfileSummary(user);
   }
 
-  private async findActiveUserOrThrow(userId: string, requireProfileAccess: boolean): Promise<PublicUserEntity & { profile: ProfileEntity | null }> {
+  private async findActiveUserOrThrow(
+    userId: string,
+    requireProfileAccess: boolean,
+  ): Promise<PublicUserEntity & { profile: ProfileEntity | null }> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -125,7 +145,9 @@ export class ProfilesService {
     return user;
   }
 
-  private toProfileView(user: PublicUserEntity & { profile: ProfileEntity | null }): ProfileView {
+  private toProfileView(
+    user: PublicUserEntity & { profile: ProfileEntity | null },
+  ): ProfileView {
     return {
       user: this.toPublicUser(user),
       profile: user.profile ? this.toProfileDetails(user.profile) : null,

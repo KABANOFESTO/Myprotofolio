@@ -6,15 +6,36 @@ import { mkdirSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import type { UploadScope } from '../interfaces/upload.interfaces';
 
-const IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+const IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+];
 const PDF_MIME_TYPES = ['application/pdf'];
 
-const SCOPES: Record<UploadScope, { folder: string; mimeTypes: string[]; public: boolean }> = {
+const SCOPES: Record<
+  UploadScope,
+  { folder: string; mimeTypes: string[]; public: boolean }
+> = {
   avatar: { folder: 'avatars', mimeTypes: IMAGE_MIME_TYPES, public: true },
   resume: { folder: 'resumes', mimeTypes: PDF_MIME_TYPES, public: false },
-  'project-image': { folder: 'projects', mimeTypes: IMAGE_MIME_TYPES, public: true },
-  'certificate-image': { folder: 'certificates/images', mimeTypes: IMAGE_MIME_TYPES, public: true },
-  'certificate-pdf': { folder: 'certificates/pdfs', mimeTypes: PDF_MIME_TYPES, public: false },
+  'project-image': {
+    folder: 'projects',
+    mimeTypes: IMAGE_MIME_TYPES,
+    public: true,
+  },
+  'certificate-image': {
+    folder: 'certificates/images',
+    mimeTypes: IMAGE_MIME_TYPES,
+    public: true,
+  },
+  'certificate-pdf': {
+    folder: 'certificates/pdfs',
+    mimeTypes: PDF_MIME_TYPES,
+    public: false,
+  },
 };
 
 export function getUploadScopeConfig(scope: UploadScope) {
@@ -43,7 +64,10 @@ export function buildPublicUploadUrl(scope: UploadScope, filename: string) {
   return `/uploads/${config.folder}/${filename}`;
 }
 
-export function buildUploadMulterOptions(scope: UploadScope, maxFileSize: number): MulterOptions {
+export function buildUploadMulterOptions(
+  scope: UploadScope,
+  maxFileSize: number,
+): MulterOptions {
   ensureUploadFolder(scope);
   const config = getUploadScopeConfig(scope);
 
@@ -54,7 +78,12 @@ export function buildUploadMulterOptions(scope: UploadScope, maxFileSize: number
       },
       filename: (_req, file, callback) => {
         if (!config.mimeTypes.includes(file.mimetype)) {
-          callback(new BadRequestException(`Unsupported file type for ${scope}`) as unknown as Error, '');
+          callback(
+            new BadRequestException(
+              `Unsupported file type for ${scope}`,
+            ) as unknown as Error,
+            '',
+          );
           return;
         }
 
@@ -63,7 +92,12 @@ export function buildUploadMulterOptions(scope: UploadScope, maxFileSize: number
     }),
     fileFilter: (_req, file, callback) => {
       if (!config.mimeTypes.includes(file.mimetype)) {
-        callback(new BadRequestException(`Unsupported file type for ${scope}`) as unknown as Error, false);
+        callback(
+          new BadRequestException(
+            `Unsupported file type for ${scope}`,
+          ) as unknown as Error,
+          false,
+        );
         return;
       }
 

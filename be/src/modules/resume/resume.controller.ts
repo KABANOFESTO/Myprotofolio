@@ -1,4 +1,12 @@
-﻿import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+﻿import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { buildApiResponse } from '@shared/helpers/api-response.helper';
 import { CurrentUser } from '@common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
@@ -19,13 +27,18 @@ export class ResumeController {
 
   @Post('me/generate')
   @UseGuards(JwtAuthGuard)
-  async generateMyResume(@CurrentUser() user: PublicUser, @Body() dto: GenerateResumeDto) {
+  async generateMyResume(
+    @CurrentUser() user: PublicUser,
+    @Body() dto: GenerateResumeDto,
+  ) {
     const resume = await this.resumeService.generateMyResume(user.id, dto);
     return buildApiResponse('Resume generated successfully', resume);
   }
 
   @Get('public/:userId')
-  async getPublicResume(@Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string) {
+  async getPublicResume(
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
+  ) {
     const resume = await this.resumeService.getPublicResume(userId);
     return buildApiResponse('Public resume loaded successfully', resume);
   }

@@ -9,7 +9,10 @@ import { PrismaService } from '@database/prisma/prisma.service';
 import type { PublicUser } from '@modules/auth/interfaces/auth.interfaces';
 import { CreateExperienceDto } from './dto/create-experience.dto';
 import { UpdateExperienceDto } from './dto/update-experience.dto';
-import type { ExperienceDeleteResult, ExperienceView } from './interfaces/experience.interfaces';
+import type {
+  ExperienceDeleteResult,
+  ExperienceView,
+} from './interfaces/experience.interfaces';
 
 const EXPERIENCE_SELECT = {
   id: true,
@@ -25,7 +28,9 @@ const EXPERIENCE_SELECT = {
   updatedAt: true,
 } as const satisfies Prisma.ExperienceSelect;
 
-type ExperienceEntity = Prisma.ExperienceGetPayload<{ select: typeof EXPERIENCE_SELECT }>;
+type ExperienceEntity = Prisma.ExperienceGetPayload<{
+  select: typeof EXPERIENCE_SELECT;
+}>;
 
 @Injectable()
 export class ExperiencesService {
@@ -33,7 +38,11 @@ export class ExperiencesService {
 
   async listExperiences(): Promise<ExperienceView[]> {
     const experiences = await this.prisma.experience.findMany({
-      orderBy: [{ current: 'desc' }, { startDate: 'desc' }, { createdAt: 'desc' }],
+      orderBy: [
+        { current: 'desc' },
+        { startDate: 'desc' },
+        { createdAt: 'desc' },
+      ],
       select: EXPERIENCE_SELECT,
     });
 
@@ -45,7 +54,10 @@ export class ExperiencesService {
     return this.toView(experience);
   }
 
-  async createExperience(actor: PublicUser, dto: CreateExperienceDto): Promise<ExperienceView> {
+  async createExperience(
+    actor: PublicUser,
+    dto: CreateExperienceDto,
+  ): Promise<ExperienceView> {
     this.assertCanManage(actor);
     this.validateDates(dto.startDate, dto.endDate, dto.current);
 
@@ -85,7 +97,10 @@ export class ExperiencesService {
     return this.toView(experience);
   }
 
-  async deleteExperience(actor: PublicUser, id: string): Promise<ExperienceDeleteResult> {
+  async deleteExperience(
+    actor: PublicUser,
+    id: string,
+  ): Promise<ExperienceDeleteResult> {
     this.assertCanManage(actor);
     await this.findExperienceOrThrow(id);
 
@@ -111,7 +126,9 @@ export class ExperiencesService {
       return;
     }
 
-    throw new ForbiddenException('You do not have permission to manage experiences');
+    throw new ForbiddenException(
+      'You do not have permission to manage experiences',
+    );
   }
 
   private buildData(dto: CreateExperienceDto) {
@@ -121,7 +138,7 @@ export class ExperiencesService {
       location: this.normalizeText(dto.location),
       description: this.normalizeText(dto.description),
       startDate: dto.startDate,
-      endDate: dto.current ? null : dto.endDate ?? null,
+      endDate: dto.current ? null : (dto.endDate ?? null),
       current: dto.current ?? false,
       technologies: this.normalizeArray(dto.technologies),
     };
@@ -130,14 +147,18 @@ export class ExperiencesService {
   private buildUpdateData(dto: UpdateExperienceDto) {
     const data: Partial<ReturnType<typeof this.buildData>> = {};
 
-    if (dto.company !== undefined) data.company = this.normalizeText(dto.company);
+    if (dto.company !== undefined)
+      data.company = this.normalizeText(dto.company);
     if (dto.role !== undefined) data.role = this.normalizeText(dto.role);
-    if (dto.location !== undefined) data.location = this.normalizeText(dto.location);
-    if (dto.description !== undefined) data.description = this.normalizeText(dto.description);
+    if (dto.location !== undefined)
+      data.location = this.normalizeText(dto.location);
+    if (dto.description !== undefined)
+      data.description = this.normalizeText(dto.description);
     if (dto.startDate !== undefined) data.startDate = dto.startDate;
     if (dto.endDate !== undefined) data.endDate = dto.endDate;
     if (dto.current !== undefined) data.current = dto.current;
-    if (dto.technologies !== undefined) data.technologies = this.normalizeArray(dto.technologies);
+    if (dto.technologies !== undefined)
+      data.technologies = this.normalizeArray(dto.technologies);
 
     if (data.current === true) {
       data.endDate = null;
@@ -146,13 +167,19 @@ export class ExperiencesService {
     return data;
   }
 
-  private validateDates(startDate?: Date | null, endDate?: Date | null, current?: boolean) {
+  private validateDates(
+    startDate?: Date | null,
+    endDate?: Date | null,
+    current?: boolean,
+  ) {
     if (!startDate) {
       throw new BadRequestException('startDate is required');
     }
 
     if (current && endDate) {
-      throw new BadRequestException('endDate must be empty when current is true');
+      throw new BadRequestException(
+        'endDate must be empty when current is true',
+      );
     }
 
     if (endDate && endDate < startDate) {
@@ -170,7 +197,9 @@ export class ExperiencesService {
   }
 
   private normalizeArray(values: string[]) {
-    const normalized = values.map((value) => value.trim()).filter((value) => value.length > 0);
+    const normalized = values
+      .map((value) => value.trim())
+      .filter((value) => value.length > 0);
 
     if (normalized.length === 0) {
       throw new BadRequestException('technologies cannot be empty');

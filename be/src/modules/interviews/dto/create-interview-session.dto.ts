@@ -1,5 +1,11 @@
 ﻿import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsIn,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { trimToUndefined, splitToStringArray } from '@common/utils';
 
 export class CreateInterviewSessionDto {

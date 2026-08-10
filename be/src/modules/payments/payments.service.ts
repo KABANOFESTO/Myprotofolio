@@ -1,4 +1,11 @@
-﻿import { Injectable, BadRequestException, ForbiddenException, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+﻿import {
+  Injectable,
+  BadRequestException,
+  ForbiddenException,
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Prisma, PaymentProvider, PaymentStatus } from '@prisma/client';
 import { createHmac, timingSafeEqual, randomBytes } from 'node:crypto';
@@ -37,7 +44,9 @@ const PAYMENT_SELECT = {
   userId: true,
 } as const satisfies Prisma.PaymentSelect;
 
-type PaymentEntity = Prisma.PaymentGetPayload<{ select: typeof PAYMENT_SELECT }>;
+type PaymentEntity = Prisma.PaymentGetPayload<{
+  select: typeof PAYMENT_SELECT;
+}>;
 
 interface PaypackTokenCache {
   access: string;
@@ -74,7 +83,9 @@ export class PaymentsService {
       data: {
         provider: PaymentProvider.PAYPACK,
         transactionRef: checkoutResponse.session_id,
-        planName: this.normalizePlanName(dto.label || items[0]?.name || 'PayPack checkout'),
+        planName: this.normalizePlanName(
+          dto.label || items[0]?.name || 'PayPack checkout',
+        ),
         amount: new Prisma.Decimal(amount),
         currency: this.getCurrency(),
         status: PaymentStatus.PENDING,
@@ -93,7 +104,11 @@ export class PaymentsService {
       {
         name: 'payment.checkout.created',
         path: '/payments/checkout',
-        metadata: this.toJson({ paymentId: payment.id, sessionId: checkoutResponse.session_id, amount }),
+        metadata: this.toJson({
+          paymentId: payment.id,
+          sessionId: checkoutResponse.session_id,
+          amount,
+        }),
       },
       { userId },
     );
@@ -108,7 +123,10 @@ export class PaymentsService {
     };
   }
 
-  async createCashin(userId: string, dto: CreateCashinDto): Promise<CashinResult> {
+  async createCashin(
+    userId: string,
+    dto: CreateCashinDto,
+  ): Promise<CashinResult> {
     const accessToken = await this.getPaypackAccessToken();
     const response = await this.requestJson<PaypackTransactionResponse>({
       url: `${this.getBaseUrl().replace(/\/$/, '')}/transactions/cashin`,
@@ -139,7 +157,9 @@ export class PaymentsService {
           phoneNumber: dto.number,
           paypack: response,
         }),
-        paidAt: this.isSuccessfulStatus(response.status) ? new Date(response.created_at) : null,
+        paidAt: this.isSuccessfulStatus(response.status)
+          ? new Date(response.created_at)
+          : null,
         userId,
       },
       select: PAYMENT_SELECT,
@@ -150,7 +170,11 @@ export class PaymentsService {
         {
           name: 'payment.cashin.created',
           path: '/payments/cashin',
-          metadata: this.toJson({ paymentId: payment.id, ref: response.ref, amount: response.amount }),
+          metadata: this.toJson({
+            paymentId: payment.id,
+            ref: response.ref,
+            amount: response.amount,
+          }),
         },
         { userId },
       ),
@@ -158,7 +182,11 @@ export class PaymentsService {
         type: NotificationType.PAYMENT,
         title: 'Payment request created',
         body: 'Your PayPack payment request is pending confirmation.',
-        metadata: this.toJson({ paymentId: payment.id, ref: response.ref, kind: response.kind }),
+        metadata: this.toJson({
+          paymentId: payment.id,
+          ref: response.ref,
+          kind: response.kind,
+        }),
       }),
     ]);
 
@@ -172,7 +200,10 @@ export class PaymentsService {
     };
   }
 
-  async listMyPayments(userId: string, query?: ListPaymentsQueryDto): Promise<PaymentView[]> {
+  async listMyPayments(
+    userId: string,
+    query?: ListPaymentsQueryDto,
+  ): Promise<PaymentView[]> {
     const payments = await this.prisma.payment.findMany({
       where: {
         userId,
@@ -185,7 +216,9 @@ export class PaymentsService {
     return payments.map((payment) => this.toView(payment));
   }
 
-  async listAllPayments(query?: { pendingOnly?: boolean }): Promise<PaymentView[]> {
+  async listAllPayments(query?: {
+    pendingOnly?: boolean;
+  }): Promise<PaymentView[]> {
     const payments = await this.prisma.payment.findMany({
       where: query?.pendingOnly ? { status: PaymentStatus.PENDING } : undefined,
       orderBy: [{ createdAt: 'desc' }],
@@ -198,7 +231,9 @@ export class PaymentsService {
   async getMyPaymentById(userId: string, id: string): Promise<PaymentView> {
     const payment = await this.findPaymentOrThrow(id);
     if (payment.userId !== userId) {
-      throw new ForbiddenException('You do not have permission to access this payment');
+      throw new ForbiddenException(
+        'You do not have permission to access this payment',
+      );
     }
 
     return this.toView(payment);
@@ -210,7 +245,16 @@ export class PaymentsService {
   }
 
   async getSummary(): Promise<PaymentSummaryView> {
-    const [totalPayments, pendingPayments, successfulPayments, failedPayments, refundedPayments, cancelledPayments, aggregate, recentPayments] = await Promise.all([
+    const [
+      totalPayments,
+      pendingPayments,
+      successfulPayments,
+      failedPayments,
+      refundedPayments,
+      cancelledPayments,
+      aggregate,
+      recentPayments,
+    ] = await Promise.all([
       this.prisma.payment.count(),
       this.prisma.payment.count({ where: { status: PaymentStatus.PENDING } }),
       this.prisma.payment.count({ where: { status: PaymentStatus.SUCCEEDED } }),
@@ -232,28 +276,48 @@ export class PaymentsService {
       failedPayments,
       refundedPayments,
       cancelledPayments,
-      totalRevenue: aggregate._sum.amount ? aggregate._sum.amount.toString() : '0',
+      totalRevenue: aggregate._sum.amount
+        ? aggregate._sum.amount.toString()
+        : '0',
       currency: this.getCurrency(),
       recentPayments: recentPayments.map((payment) => this.toView(payment)),
     };
   }
 
-  async handleWebhook(rawBody: Buffer, signature?: string): Promise<PaymentWebhookResult> {
+  async handleWebhook(
+    rawBody: Buffer,
+    signature?: string,
+  ): Promise<PaymentWebhookResult> {
     if (!signature) {
       throw new UnauthorizedException('Missing PayPack signature');
     }
 
-    const secret = this.getRequiredConfig('payment.webhookSecret', 'PAYPACK_WEBHOOK_SECRET');
-    const digest = createHmac('sha256', secret).update(rawBody).digest('base64');
+    const secret = this.getRequiredConfig(
+      'payment.webhookSecret',
+      'PAYPACK_WEBHOOK_SECRET',
+    );
+    const digest = createHmac('sha256', secret)
+      .update(rawBody)
+      .digest('base64');
 
     if (!this.safeEquals(digest, signature)) {
       throw new UnauthorizedException('Invalid PayPack signature');
     }
 
-    const payload = JSON.parse(rawBody.toString('utf8')) as PaypackWebhookPayload;
+    const payload = JSON.parse(
+      rawBody.toString('utf8'),
+    ) as PaypackWebhookPayload;
     const eventKind = payload.event_kind ?? payload.kind ?? null;
-    const transactionRef = payload.data?.ref ?? payload.ref ?? payload.data?.session_id ?? payload.session_id ?? null;
-    const status = (payload.data?.status ?? payload.status ?? null)?.toString().toLowerCase() ?? null;
+    const transactionRef =
+      payload.data?.ref ??
+      payload.ref ??
+      payload.data?.session_id ??
+      payload.session_id ??
+      null;
+    const status =
+      (payload.data?.status ?? payload.status ?? null)
+        ?.toString()
+        .toLowerCase() ?? null;
 
     if (!transactionRef) {
       return {
@@ -281,7 +345,14 @@ export class PaymentsService {
     }
 
     const mappedStatus = this.mapWebhookStatus(status, eventKind);
-    const paidAt = mappedStatus === PaymentStatus.SUCCEEDED ? new Date(payload.data?.processed_at ?? payload.data?.created_at ?? new Date()) : payment.paidAt;
+    const paidAt =
+      mappedStatus === PaymentStatus.SUCCEEDED
+        ? new Date(
+            payload.data?.processed_at ??
+              payload.data?.created_at ??
+              new Date(),
+          )
+        : payment.paidAt;
 
     const updated = await this.prisma.payment.update({
       where: { id: payment.id },
@@ -354,7 +425,10 @@ export class PaymentsService {
   }
 
   private async getPaypackAccessToken(): Promise<string> {
-    if (this.tokenCache && this.tokenCache.expiresAt.getTime() > Date.now() + 30_000) {
+    if (
+      this.tokenCache &&
+      this.tokenCache.expiresAt.getTime() > Date.now() + 30_000
+    ) {
       return this.tokenCache.access;
     }
 
@@ -375,8 +449,14 @@ export class PaymentsService {
       }
     }
 
-    const clientId = this.getRequiredConfig('payment.clientId', 'PAYPACK_CLIENT_ID');
-    const clientSecret = this.getRequiredConfig('payment.clientSecret', 'PAYPACK_CLIENT_SECRET');
+    const clientId = this.getRequiredConfig(
+      'payment.clientId',
+      'PAYPACK_CLIENT_ID',
+    );
+    const clientSecret = this.getRequiredConfig(
+      'payment.clientSecret',
+      'PAYPACK_CLIENT_SECRET',
+    );
     const response = await this.requestJson<PaypackAuthResponse>({
       url: `${this.getBaseUrl().replace(/\/$/, '')}/auth/agents/authorize`,
       method: 'POST',
@@ -426,7 +506,8 @@ export class PaymentsService {
       const response = await fetch(params.url, {
         method: params.method,
         headers: params.headers,
-        body: params.body === undefined ? undefined : JSON.stringify(params.body),
+        body:
+          params.body === undefined ? undefined : JSON.stringify(params.body),
         signal: controller.signal,
       });
 
@@ -443,7 +524,9 @@ export class PaymentsService {
     }
   }
 
-  private normalizeCheckoutItems(items: CreateCheckoutDto['items']): PaymentCheckoutItem[] {
+  private normalizeCheckoutItems(
+    items: CreateCheckoutDto['items'],
+  ): PaymentCheckoutItem[] {
     if (!Array.isArray(items) || items.length === 0) {
       throw new BadRequestException('At least one checkout item is required');
     }
@@ -471,10 +554,18 @@ export class PaymentsService {
 
   private mapPaypackStatus(status: string): PaymentStatus {
     const normalized = status.trim().toLowerCase();
-    if (normalized === 'successful' || normalized === 'success' || normalized === 'processed') {
+    if (
+      normalized === 'successful' ||
+      normalized === 'success' ||
+      normalized === 'processed'
+    ) {
       return PaymentStatus.SUCCEEDED;
     }
-    if (normalized === 'failed' || normalized === 'error' || normalized === 'declined') {
+    if (
+      normalized === 'failed' ||
+      normalized === 'error' ||
+      normalized === 'declined'
+    ) {
       return PaymentStatus.FAILED;
     }
     if (normalized === 'cancelled' || normalized === 'canceled') {
@@ -483,7 +574,10 @@ export class PaymentsService {
     return PaymentStatus.PENDING;
   }
 
-  private mapWebhookStatus(status: string | null, eventKind: string | null): PaymentStatus {
+  private mapWebhookStatus(
+    status: string | null,
+    eventKind: string | null,
+  ): PaymentStatus {
     const normalized = (status || '').trim().toLowerCase();
     const event = (eventKind || '').trim().toLowerCase();
 
@@ -503,12 +597,17 @@ export class PaymentsService {
     return this.mapPaypackStatus(status) === PaymentStatus.SUCCEEDED;
   }
 
-  private mergeMetadata(existing: Prisma.JsonValue | null, extra: Record<string, unknown>): Prisma.InputJsonValue {
+  private mergeMetadata(
+    existing: Prisma.JsonValue | null,
+    extra: Record<string, unknown>,
+  ): Prisma.InputJsonValue {
     const current = this.toPlainObject(existing);
     return this.toJson({ ...current, ...extra });
   }
 
-  private toPlainObject(value: Prisma.JsonValue | null): Record<string, unknown> {
+  private toPlainObject(
+    value: Prisma.JsonValue | null,
+  ): Record<string, unknown> {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
       return {};
     }
@@ -547,11 +646,17 @@ export class PaymentsService {
   }
 
   private getBaseUrl() {
-    return this.configService.get<string>('payment.baseUrl', 'https://payments.paypack.rw/api');
+    return this.configService.get<string>(
+      'payment.baseUrl',
+      'https://payments.paypack.rw/api',
+    );
   }
 
   private getCheckoutBaseUrl() {
-    return this.configService.get<string>('payment.checkoutBaseUrl', 'https://checkout.paypack.rw/api');
+    return this.configService.get<string>(
+      'payment.checkoutBaseUrl',
+      'https://checkout.paypack.rw/api',
+    );
   }
 
   private getWebhookMode() {
@@ -563,14 +668,19 @@ export class PaymentsService {
   }
 
   private getTimeoutMs() {
-    const seconds = this.configService.get<number>('payment.requestTimeoutSeconds', 30);
+    const seconds = this.configService.get<number>(
+      'payment.requestTimeoutSeconds',
+      30,
+    );
     return Math.max(5, seconds) * 1000;
   }
 
   private getRequiredConfig(key: string, envName: string) {
     const value = this.configService.get<string>(key, '').trim();
     if (!value) {
-      throw new BadRequestException(`Missing required payment configuration: ${envName}`);
+      throw new BadRequestException(
+        `Missing required payment configuration: ${envName}`,
+      );
     }
 
     return value;

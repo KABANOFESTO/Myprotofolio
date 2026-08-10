@@ -34,13 +34,16 @@ const SESSION_SELECT = {
   userId: true,
 } as const satisfies Prisma.InterviewSessionSelect;
 
-type SessionEntity = Prisma.InterviewSessionGetPayload<{ select: typeof SESSION_SELECT }>;
+type SessionEntity = Prisma.InterviewSessionGetPayload<{
+  select: typeof SESSION_SELECT;
+}>;
 
 const INTERVIEW_TEMPLATES: InterviewTemplatePreset[] = [
   {
     key: 'frontend-react',
     label: 'Frontend React',
-    description: 'Interview practice focused on React, state management, and UI delivery.',
+    description:
+      'Interview practice focused on React, state management, and UI delivery.',
     roles: ['Frontend Developer', 'React Developer', 'UI Engineer'],
     focusAreas: ['React', 'TypeScript', 'State management', 'Accessibility'],
     difficulty: 'MID',
@@ -48,7 +51,8 @@ const INTERVIEW_TEMPLATES: InterviewTemplatePreset[] = [
   {
     key: 'backend-api',
     label: 'Backend API',
-    description: 'Server-side interview practice for APIs, system design, and data handling.',
+    description:
+      'Server-side interview practice for APIs, system design, and data handling.',
     roles: ['Backend Developer', 'API Engineer', 'Full Stack Developer'],
     focusAreas: ['Node.js', 'APIs', 'Databases', 'Scalability'],
     difficulty: 'MID',
@@ -56,7 +60,8 @@ const INTERVIEW_TEMPLATES: InterviewTemplatePreset[] = [
   {
     key: 'fullstack-product',
     label: 'Full Stack Product',
-    description: 'Balanced practice for full stack product delivery and tradeoff decisions.',
+    description:
+      'Balanced practice for full stack product delivery and tradeoff decisions.',
     roles: ['Full Stack Developer', 'Software Engineer'],
     focusAreas: ['Frontend', 'Backend', 'Testing', 'Product thinking'],
     difficulty: 'MID',
@@ -64,7 +69,8 @@ const INTERVIEW_TEMPLATES: InterviewTemplatePreset[] = [
   {
     key: 'system-design-senior',
     label: 'Senior System Design',
-    description: 'Advanced interview prep for architecture, scale, and platform decisions.',
+    description:
+      'Advanced interview prep for architecture, scale, and platform decisions.',
     roles: ['Senior Software Engineer', 'Staff Engineer'],
     focusAreas: ['Architecture', 'Scale', 'Observability', 'Reliability'],
     difficulty: 'SENIOR',
@@ -72,9 +78,15 @@ const INTERVIEW_TEMPLATES: InterviewTemplatePreset[] = [
   {
     key: 'junior-foundations',
     label: 'Junior Foundations',
-    description: 'Entry-level questions around fundamentals, problem solving, and communication.',
+    description:
+      'Entry-level questions around fundamentals, problem solving, and communication.',
     roles: ['Junior Developer', 'Intern'],
-    focusAreas: ['Fundamentals', 'Debugging', 'Communication', 'Learning mindset'],
+    focusAreas: [
+      'Fundamentals',
+      'Debugging',
+      'Communication',
+      'Learning mindset',
+    ],
     difficulty: 'JUNIOR',
   },
 ];
@@ -93,7 +105,13 @@ export class InterviewsService {
   }
 
   async getSummary(): Promise<InterviewSummaryView> {
-    const [totalSessions, scoredSessions, scoreStats, byDifficulty, recentSessions] = await Promise.all([
+    const [
+      totalSessions,
+      scoredSessions,
+      scoreStats,
+      byDifficulty,
+      recentSessions,
+    ] = await Promise.all([
       this.prisma.interviewSession.count(),
       this.prisma.interviewSession.count({ where: { score: { not: null } } }),
       this.prisma.interviewSession.aggregate({
@@ -129,7 +147,10 @@ export class InterviewsService {
     };
   }
 
-  async createSession(user: PublicUser, dto: CreateInterviewSessionDto): Promise<InterviewSessionView> {
+  async createSession(
+    user: PublicUser,
+    dto: CreateInterviewSessionDto,
+  ): Promise<InterviewSessionView> {
     const profile = await this.prisma.profile.findUnique({
       where: { userId: user.id },
       select: {
@@ -142,8 +163,14 @@ export class InterviewsService {
       },
     });
 
-    const template = this.resolveTemplate(dto.role, dto.difficulty, dto.templateKey);
-    const effectiveFocusAreas = dto.focusAreas?.length ? dto.focusAreas : template.focusAreas;
+    const template = this.resolveTemplate(
+      dto.role,
+      dto.difficulty,
+      dto.templateKey,
+    );
+    const effectiveFocusAreas = dto.focusAreas?.length
+      ? dto.focusAreas
+      : template.focusAreas;
 
     const generated = await this.aiService.simulateInterview(
       {
@@ -163,7 +190,9 @@ export class InterviewsService {
         userId: user.id,
         role: dto.role,
         difficulty: dto.difficulty as InterviewDifficulty,
-        questions: this.toJson(this.applyFocusAreas(generated.result, effectiveFocusAreas)),
+        questions: this.toJson(
+          this.applyFocusAreas(generated.result, effectiveFocusAreas),
+        ),
       },
       select: SESSION_SELECT,
     });
@@ -173,7 +202,10 @@ export class InterviewsService {
         type: NotificationType.AI_REPORT,
         title: 'Interview session ready',
         body: `Your ${dto.difficulty.toLowerCase()} interview session for ${dto.role} is ready.`,
-        metadata: this.toJson({ sessionId: session.id, templateKey: template.key }),
+        metadata: this.toJson({
+          sessionId: session.id,
+          templateKey: template.key,
+        }),
       }),
       this.analyticsService.trackEvent(
         {
@@ -212,13 +244,20 @@ export class InterviewsService {
     return sessions.map((session) => this.toView(session));
   }
 
-  async getMySession(userId: string, id: string): Promise<InterviewSessionView> {
+  async getMySession(
+    userId: string,
+    id: string,
+  ): Promise<InterviewSessionView> {
     const session = await this.findSessionOrThrow(id);
     this.assertOwnership(session, userId);
     return this.toView(session);
   }
 
-  async submitAnswers(userId: string, id: string, dto: SubmitInterviewAnswersDto): Promise<InterviewSessionView> {
+  async submitAnswers(
+    userId: string,
+    id: string,
+    dto: SubmitInterviewAnswersDto,
+  ): Promise<InterviewSessionView> {
     const session = await this.findSessionOrThrow(id);
     this.assertOwnership(session, userId);
 
@@ -238,7 +277,10 @@ export class InterviewsService {
       {
         name: 'interview.answers.submitted',
         path: `/interviews/me/${id}/answers`,
-        metadata: this.toJson({ sessionId: id, answersCount: dto.answers.length }),
+        metadata: this.toJson({
+          sessionId: id,
+          answersCount: dto.answers.length,
+        }),
       },
       { userId },
     );
@@ -246,13 +288,22 @@ export class InterviewsService {
     return this.toView(updated);
   }
 
-  async generateFeedback(userId: string, id: string, dto?: GenerateInterviewFeedbackDto): Promise<InterviewSessionView> {
+  async generateFeedback(
+    userId: string,
+    id: string,
+    dto?: GenerateInterviewFeedbackDto,
+  ): Promise<InterviewSessionView> {
     const session = await this.findSessionOrThrow(id);
     this.assertOwnership(session, userId);
 
-    const answers = Array.isArray(session.answers) ? (session.answers as Array<{ questionIndex: number; answer: string }>) : [];
+    const answers = Array.isArray(session.answers)
+      ? (session.answers as Array<{ questionIndex: number; answer: string }>)
+      : [];
     const questions = Array.isArray(session.questions)
-      ? (session.questions as Array<{ question: string; idealAnswerPoints: string[] }>)
+      ? (session.questions as Array<{
+          question: string;
+          idealAnswerPoints: string[];
+        }>)
       : [];
 
     const feedback = await this.aiService.simulateInterview(
@@ -267,7 +318,12 @@ export class InterviewsService {
       },
     );
 
-    const evaluated = this.buildFeedbackFromAi(feedback.result, answers, questions, dto?.note);
+    const evaluated = this.buildFeedbackFromAi(
+      feedback.result,
+      answers,
+      questions,
+      dto?.note,
+    );
 
     const updated = await this.prisma.interviewSession.update({
       where: { id },
@@ -298,7 +354,10 @@ export class InterviewsService {
     return this.toView(updated);
   }
 
-  async deleteSession(userId: string, id: string): Promise<InterviewSessionDeleteResult> {
+  async deleteSession(
+    userId: string,
+    id: string,
+  ): Promise<InterviewSessionDeleteResult> {
     const session = await this.findSessionOrThrow(id);
     this.assertOwnership(session, userId);
     await this.prisma.interviewSession.delete({ where: { id } });
@@ -310,8 +369,14 @@ export class InterviewsService {
     return this.toView(session);
   }
 
-  private resolveTemplate(role: string, difficulty: string, templateKey?: string) {
-    const requested = templateKey ? INTERVIEW_TEMPLATES.find((template) => template.key === templateKey) : undefined;
+  private resolveTemplate(
+    role: string,
+    difficulty: string,
+    templateKey?: string,
+  ) {
+    const requested = templateKey
+      ? INTERVIEW_TEMPLATES.find((template) => template.key === templateKey)
+      : undefined;
     if (requested) {
       return requested;
     }
@@ -319,9 +384,11 @@ export class InterviewsService {
     const normalizedRole = role.trim().toLowerCase();
     const normalizedDifficulty = difficulty.trim().toUpperCase();
     return (
-      INTERVIEW_TEMPLATES.find((template) =>
-        template.roles.some((candidate) => normalizedRole.includes(candidate.toLowerCase())) ||
-        template.difficulty === normalizedDifficulty,
+      INTERVIEW_TEMPLATES.find(
+        (template) =>
+          template.roles.some((candidate) =>
+            normalizedRole.includes(candidate.toLowerCase()),
+          ) || template.difficulty === normalizedDifficulty,
       ) || INTERVIEW_TEMPLATES[2]
     );
   }
@@ -364,7 +431,9 @@ export class InterviewsService {
 
   private assertOwnership(session: SessionEntity, userId: string) {
     if (session.userId !== userId) {
-      throw new ForbiddenException('You do not have permission to access this interview session');
+      throw new ForbiddenException(
+        'You do not have permission to access this interview session',
+      );
     }
   }
 
@@ -374,10 +443,19 @@ export class InterviewsService {
     questions: Array<{ question: string; idealAnswerPoints: string[] }>,
     note?: string,
   ) {
-    const answeredCount = answers.filter((item) => typeof item.answer === 'string' && item.answer.trim().length > 0).length;
-    const completeness = questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0;
+    const answeredCount = answers.filter(
+      (item) =>
+        typeof item.answer === 'string' && item.answer.trim().length > 0,
+    ).length;
+    const completeness =
+      questions.length > 0
+        ? Math.round((answeredCount / questions.length) * 100)
+        : 0;
     const baseScore = aiResult.score ?? 72;
-    const score = Math.max(0, Math.min(100, Math.round((baseScore + completeness) / 2)));
+    const score = Math.max(
+      0,
+      Math.min(100, Math.round((baseScore + completeness) / 2)),
+    );
 
     return {
       summary: note ? `${aiResult.summary} ${note}` : aiResult.summary,
@@ -386,7 +464,10 @@ export class InterviewsService {
         'Relevant experience framing',
         'Clear technical reasoning',
       ],
-      gaps: answeredCount < questions.length ? ['Incomplete coverage of all questions'] : ['Add more metrics and impact'],
+      gaps:
+        answeredCount < questions.length
+          ? ['Incomplete coverage of all questions']
+          : ['Add more metrics and impact'],
       recommendations: [
         'Practice with timed answers.',
         'Use more concrete examples and measurable outcomes.',

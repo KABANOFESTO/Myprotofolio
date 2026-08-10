@@ -2,11 +2,17 @@
 import { NotificationType, Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { AiService } from '@modules/ai/ai.service';
-import type { AiReportView, ResumeAiResult } from '@modules/ai/interfaces/ai.interfaces';
+import type {
+  AiReportView,
+  ResumeAiResult,
+} from '@modules/ai/interfaces/ai.interfaces';
 import { NotificationsService } from '@modules/notifications/notifications.service';
 import { AnalyticsService } from '@modules/analytics/analytics.service';
 import { GenerateResumeDto } from './dto/generate-resume.dto';
-import type { PrivateResumeView, PublicResumeView } from './interfaces/resume.interfaces';
+import type {
+  PrivateResumeView,
+  PublicResumeView,
+} from './interfaces/resume.interfaces';
 
 const RESUME_USER_SELECT = {
   id: true,
@@ -105,7 +111,10 @@ export class ResumeService {
     return this.buildPublicResume(userId);
   }
 
-  async generateMyResume(userId: string, dto: GenerateResumeDto): Promise<PrivateResumeView> {
+  async generateMyResume(
+    userId: string,
+    dto: GenerateResumeDto,
+  ): Promise<PrivateResumeView> {
     const resumeData = await this.getResumeData(userId);
     const generated = await this.aiService.generateResumeDraft(dto, {
       userId,
@@ -215,29 +224,34 @@ export class ResumeService {
       throw new NotFoundException('Resume user not found');
     }
 
-    const [skills, experiences, education, certificates, projects] = await Promise.all([
-      this.prisma.skill.findMany({
-        orderBy: [{ sortOrder: 'asc' }, { proficiency: 'desc' }, { name: 'asc' }],
-        select: RESUME_SKILL_SELECT,
-      }),
-      this.prisma.experience.findMany({
-        orderBy: [{ startDate: 'desc' }],
-        select: RESUME_EXPERIENCE_SELECT,
-      }),
-      this.prisma.education.findMany({
-        orderBy: [{ startDate: 'desc' }],
-        select: RESUME_EDUCATION_SELECT,
-      }),
-      this.prisma.certificate.findMany({
-        orderBy: [{ issuedAt: 'desc' }],
-        select: RESUME_CERTIFICATE_SELECT,
-      }),
-      this.prisma.project.findMany({
-        orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
-        take: 8,
-        select: RESUME_PROJECT_SELECT,
-      }),
-    ]);
+    const [skills, experiences, education, certificates, projects] =
+      await Promise.all([
+        this.prisma.skill.findMany({
+          orderBy: [
+            { sortOrder: 'asc' },
+            { proficiency: 'desc' },
+            { name: 'asc' },
+          ],
+          select: RESUME_SKILL_SELECT,
+        }),
+        this.prisma.experience.findMany({
+          orderBy: [{ startDate: 'desc' }],
+          select: RESUME_EXPERIENCE_SELECT,
+        }),
+        this.prisma.education.findMany({
+          orderBy: [{ startDate: 'desc' }],
+          select: RESUME_EDUCATION_SELECT,
+        }),
+        this.prisma.certificate.findMany({
+          orderBy: [{ issuedAt: 'desc' }],
+          select: RESUME_CERTIFICATE_SELECT,
+        }),
+        this.prisma.project.findMany({
+          orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
+          take: 8,
+          select: RESUME_PROJECT_SELECT,
+        }),
+      ]);
 
     return {
       user,
@@ -250,11 +264,23 @@ export class ResumeService {
     };
   }
 
-  private getProfileSummary(resumeData: Awaited<ReturnType<ResumeService['getResumeData']>>) {
-    const values = [resumeData.profile?.headline, resumeData.profile?.bio, resumeData.profile?.about]
-      .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
+  private getProfileSummary(
+    resumeData: Awaited<ReturnType<ResumeService['getResumeData']>>,
+  ) {
+    const values = [
+      resumeData.profile?.headline,
+      resumeData.profile?.bio,
+      resumeData.profile?.about,
+    ]
+      .filter(
+        (value): value is string =>
+          typeof value === 'string' && value.trim().length > 0,
+      )
       .map((value) => value.trim());
 
-    return values[0] || `Professional portfolio for ${resumeData.user.name} with a focus on shipping reliable software.`;
+    return (
+      values[0] ||
+      `Professional portfolio for ${resumeData.user.name} with a focus on shipping reliable software.`
+    );
   }
 }

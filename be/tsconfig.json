@@ -10,7 +10,8 @@
       "@modules/*": ["./src/modules/*"],
       "@shared/*": ["./src/shared/*"]
     },
-    "ignoreDeprecations": "5.0",
+    "ignoreDeprecations": "6.0",
+    "types": ["node", "jest"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,

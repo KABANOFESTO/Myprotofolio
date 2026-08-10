@@ -9,7 +9,10 @@ import { PrismaService } from '@database/prisma/prisma.service';
 import type { PublicUser } from '@modules/auth/interfaces/auth.interfaces';
 import { CreateEducationDto } from './dto/create-education.dto';
 import { UpdateEducationDto } from './dto/update-education.dto';
-import type { EducationDeleteResult, EducationView } from './interfaces/education.interfaces';
+import type {
+  EducationDeleteResult,
+  EducationView,
+} from './interfaces/education.interfaces';
 
 const EDUCATION_SELECT = {
   id: true,
@@ -24,7 +27,9 @@ const EDUCATION_SELECT = {
   updatedAt: true,
 } as const satisfies Prisma.EducationSelect;
 
-type EducationEntity = Prisma.EducationGetPayload<{ select: typeof EDUCATION_SELECT }>;
+type EducationEntity = Prisma.EducationGetPayload<{
+  select: typeof EDUCATION_SELECT;
+}>;
 
 @Injectable()
 export class EducationService {
@@ -44,7 +49,10 @@ export class EducationService {
     return this.toView(item);
   }
 
-  async createEducation(actor: PublicUser, dto: CreateEducationDto): Promise<EducationView> {
+  async createEducation(
+    actor: PublicUser,
+    dto: CreateEducationDto,
+  ): Promise<EducationView> {
     this.assertCanManage(actor);
     this.validateDates(dto.startDate, dto.endDate);
 
@@ -83,7 +91,10 @@ export class EducationService {
     return this.toView(item);
   }
 
-  async deleteEducation(actor: PublicUser, id: string): Promise<EducationDeleteResult> {
+  async deleteEducation(
+    actor: PublicUser,
+    id: string,
+  ): Promise<EducationDeleteResult> {
     this.assertCanManage(actor);
     await this.findEducationOrThrow(id);
 
@@ -109,7 +120,9 @@ export class EducationService {
       return;
     }
 
-    throw new ForbiddenException('You do not have permission to manage education');
+    throw new ForbiddenException(
+      'You do not have permission to manage education',
+    );
   }
 
   private buildData(dto: CreateEducationDto) {
@@ -127,11 +140,16 @@ export class EducationService {
   private buildUpdateData(dto: UpdateEducationDto) {
     const data: Partial<ReturnType<typeof this.buildData>> = {};
 
-    if (dto.institution !== undefined) data.institution = this.normalizeRequiredText(dto.institution);
-    if (dto.degree !== undefined) data.degree = this.normalizeRequiredText(dto.degree);
-    if (dto.field !== undefined) data.field = this.normalizeRequiredText(dto.field);
-    if (dto.location !== undefined) data.location = this.normalizeOptionalText(dto.location);
-    if (dto.score !== undefined) data.score = this.normalizeOptionalText(dto.score);
+    if (dto.institution !== undefined)
+      data.institution = this.normalizeRequiredText(dto.institution);
+    if (dto.degree !== undefined)
+      data.degree = this.normalizeRequiredText(dto.degree);
+    if (dto.field !== undefined)
+      data.field = this.normalizeRequiredText(dto.field);
+    if (dto.location !== undefined)
+      data.location = this.normalizeOptionalText(dto.location);
+    if (dto.score !== undefined)
+      data.score = this.normalizeOptionalText(dto.score);
     if (dto.startDate !== undefined) data.startDate = dto.startDate;
     if (dto.endDate !== undefined) data.endDate = dto.endDate;
 

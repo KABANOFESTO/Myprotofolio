@@ -41,7 +41,12 @@ export interface InterviewSummaryView {
     difficulty: InterviewDifficulty;
     count: number;
   }>;
-  recentSessions: Array<Pick<InterviewSessionView, 'id' | 'role' | 'difficulty' | 'score' | 'createdAt'>>;
+  recentSessions: Array<
+    Pick<
+      InterviewSessionView,
+      'id' | 'role' | 'difficulty' | 'score' | 'createdAt'
+    >
+  >;
   templates: InterviewTemplatePreset[];
 }
 

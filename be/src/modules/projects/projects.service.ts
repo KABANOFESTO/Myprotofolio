@@ -45,7 +45,9 @@ const PROJECT_SELECT = {
   },
 } as const satisfies Prisma.ProjectSelect;
 
-type ProjectEntity = Prisma.ProjectGetPayload<{ select: typeof PROJECT_SELECT }>;
+type ProjectEntity = Prisma.ProjectGetPayload<{
+  select: typeof PROJECT_SELECT;
+}>;
 
 @Injectable()
 export class ProjectsService {
@@ -73,7 +75,10 @@ export class ProjectsService {
     return this.toProjectView(project);
   }
 
-  async createProject(actor: PublicUser, dto: CreateProjectDto): Promise<ProjectView> {
+  async createProject(
+    actor: PublicUser,
+    dto: CreateProjectDto,
+  ): Promise<ProjectView> {
     const data = this.buildCreateData(dto, actor.id);
 
     if (data.endDate && data.startDate && data.endDate < data.startDate) {
@@ -149,7 +154,9 @@ export class ProjectsService {
       return;
     }
 
-    throw new ForbiddenException('You do not have permission to manage this project');
+    throw new ForbiddenException(
+      'You do not have permission to manage this project',
+    );
   }
 
   private buildCreateData(dto: CreateProjectDto, ownerId: string) {
@@ -228,7 +235,9 @@ export class ProjectsService {
     const slug = this.normalizeText(value).toLowerCase();
 
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
-      throw new BadRequestException('slug must contain only lowercase letters, numbers, and hyphens');
+      throw new BadRequestException(
+        'slug must contain only lowercase letters, numbers, and hyphens',
+      );
     }
 
     return slug;
@@ -243,7 +252,9 @@ export class ProjectsService {
   }
 
   private normalizeArray(values: string[]) {
-    const normalized = values.map((value) => this.normalizeText(value)).filter((value) => value.length > 0);
+    const normalized = values
+      .map((value) => this.normalizeText(value))
+      .filter((value) => value.length > 0);
 
     if (normalized.length === 0) {
       throw new BadRequestException('Array fields cannot be empty');
@@ -287,4 +298,3 @@ export class ProjectsService {
     };
   }
 }
-

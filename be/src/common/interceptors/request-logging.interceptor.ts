@@ -18,9 +18,12 @@ export class RequestLoggingInterceptor implements NestInterceptor {
     const http = context.switchToHttp();
     const request = http.getRequest<Request>();
     const response = http.getResponse<Response>();
-    const requestWithContext = request as unknown as Partial<RequestWithContext>;
+    const requestWithContext =
+      request as unknown as Partial<RequestWithContext>;
     const startedAt = requestWithContext.requestStartedAt ?? Date.now();
-    const requestId = requestWithContext.requestId ?? response.getHeader(RequestHeader.REQUEST_ID);
+    const requestId =
+      requestWithContext.requestId ??
+      response.getHeader(RequestHeader.REQUEST_ID);
 
     return next.handle().pipe(
       tap(() => {
@@ -32,4 +35,3 @@ export class RequestLoggingInterceptor implements NestInterceptor {
     );
   }
 }
-
